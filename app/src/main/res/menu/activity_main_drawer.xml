@@ -16,5 +16,10 @@
             android:id="@+id/nav_course"
             android:icon="@drawable/ic_baseline_library_books_24"
             android:title="@string/menu_course" />
+
+        <item
+            android:id="@+id/nav_attendance"
+            android:icon="@drawable/ic_baseline_event_note_24"
+            android:title="@string/attendance" />
     </group>
 </menu>

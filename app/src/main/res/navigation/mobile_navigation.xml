@@ -34,6 +34,12 @@
             android:id="@+id/action_nav_course_to_addCourseFragment"
             app:destination="@id/addCourseFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_attendance"
+        android:name="com.example.attend.ui.attendance.AttendanceFragment"
+        android:label="@string/attendance"
+        tools:layout="@layout/fragment_attendance"/>
     <fragment
         android:id="@+id/studentAddFragment"
         android:name="com.example.attend.ui.student.StudentAddFragment"

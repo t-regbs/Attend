@@ -33,5 +33,6 @@
     <string name="course_name">Course Name</string>
     <string name="add_course">Add Course</string>
     <string name="add_lecturer">Add Lecturer</string>
+    <string name="attendance">Attendance</string>
 
 </resources>
