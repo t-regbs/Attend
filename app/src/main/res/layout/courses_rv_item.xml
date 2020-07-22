@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    android:elevation="12dp"
+    android:onClick="@{clickListener}"
+    android:layout_margin="8dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/txt_course_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="GEC 117"
+            android:textColor="@color/logoBlue"
+            android:textSize="@dimen/student_name_size"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/txt_course_name_prompt"
+                android:textSize="@dimen/current_courses_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Course Name: "/>
+            <TextView
+                android:id="@+id/txt_course_name"
+                android:textSize="@dimen/current_courses_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Drawing"/>
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

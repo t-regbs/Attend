@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_student">
+
+    <fragment
+        android:id="@+id/nav_student"
+        android:name="com.example.attend.ui.student.StudentFragment"
+        android:label="@string/menu_student"
+        tools:layout="@layout/fragment_student" >
+        <action
+            android:id="@+id/action_nav_student_to_studentAddFragment"
+            app:destination="@id/studentAddFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_lecturer"
+        android:name="com.example.attend.ui.lecturer.LecturerFragment"
+        android:label="@string/menu_lecturer"
+        tools:layout="@layout/fragment_lecturer" >
+        <action
+            android:id="@+id/action_nav_lecturer_to_lecturerAddFragment"
+            app:destination="@id/lecturerAddFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_course"
+        android:name="com.example.attend.ui.course.CoursesFragment"
+        android:label="@string/menu_course"
+        tools:layout="@layout/fragment_courses" >
+        <action
+            android:id="@+id/action_nav_course_to_addCourseFragment"
+            app:destination="@id/addCourseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/studentAddFragment"
+        android:name="com.example.attend.ui.student.StudentAddFragment"
+        android:label="@string/add_student"
+        tools:layout="@layout/fragment_student_add" />
+    <fragment
+        android:id="@+id/lecturerAddFragment"
+        android:name="com.example.attend.ui.lecturer.LecturerAddFragment"
+        android:label="@string/add_lecturer"
+        tools:layout="@layout/fragment_lecturer_add" />
+    <fragment
+        android:id="@+id/addCourseFragment"
+        android:name="com.example.attend.ui.course.AddCourseFragment"
+        android:label="@string/add_course"
+        tools:layout="@layout/fragment_add_course" />
+</navigation>
