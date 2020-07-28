@@ -35,7 +35,7 @@ class AttendanceFragment : Fragment() {
             myCalendar.set(Calendar.YEAR, year)
             myCalendar.set(Calendar.MONTH, monthOfYear)
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            updateLabel()
+            updateStartLabel()
         }
 
         val dateEnd = OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
@@ -63,7 +63,7 @@ class AttendanceFragment : Fragment() {
         return binding.root
     }
 
-    private fun updateLabel() {
+    private fun updateStartLabel() {
         val myFormat = "MM/dd/yy" //In which you need put here
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         binding.startDate.editText?.setText(sdf.format(myCalendar.time))
