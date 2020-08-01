@@ -3,11 +3,25 @@ package com.example.attend.ui.lecturer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.attend.data.model.Lecturer
+import com.example.attend.data.repository.AttendanceRepository
+import kotlinx.coroutines.launch
 
-class LecturerViewModel : ViewModel() {
+class LecturerViewModel(private val repository: AttendanceRepository) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is gallery Fragment"
+    val lecturers = MutableLiveData<List<Lecturer>>()
+
+    fun getLecturers() {
+        viewModelScope.launch {
+            val lecturerList = repository.getLecturers()
+            lecturers.postValue(lecturerList)
+        }
     }
-    val text: LiveData<String> = _text
+
+    fun submitLecturer(firstName: String, lastName: String, contactNo: String, email: String) {
+        viewModelScope.launch {
+            repository.addNewLecturer(firstName, lastName, contactNo, email)
+        }
+    }
 }

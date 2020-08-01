@@ -78,4 +78,9 @@ dependencies {
     // material dialogs
     def matieral_dialogs_version = "3.3.0"
     implementation "com.afollestad.material-dialogs:core:$matieral_dialogs_version"
+
+    //Koin
+    implementation "org.koin:koin-android:2.0.1"
+    implementation 'org.koin:koin-androidx-viewmodel:2.0.1'
+    implementation 'org.koin:koin-androidx-scope:2.0.1'
 }

@@ -9,7 +9,7 @@ import java.util.*
 data class Attendance(
         @PrimaryKey(autoGenerate = true)
         val attendanceId: Int,
-        val date: Date,
+        val date: String,
         @ColumnInfo(name = "attendance_status")
         val attendanceStatus: String,
         val studentId: Int,
