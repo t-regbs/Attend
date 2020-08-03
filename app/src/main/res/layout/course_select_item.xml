@@ -1,42 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="8dp"
-    android:elevation="12dp"
-    android:layout_margin="8dp">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="8dp"
-        android:orientation="vertical">
-        <CheckBox
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textSize="@dimen/current_courses_size"
-            tools:text="MTH 111"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="32dp">
-            <TextView
-                android:id="@+id/txt_course_name_prompt"
-                android:textSize="@dimen/course_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                tools:text="Course Name: "/>
-            <TextView
-                android:id="@+id/txt_course_name"
-                android:textSize="@dimen/course_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="English"/>
-        </LinearLayout>
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+    <data>
+        <variable
+            name="course"
+            type="com.example.attend.data.model.Course" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardview"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:cardCornerRadius="8dp"
+        android:elevation="12dp"
+        app:contentPadding="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/checkbox_course_code"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@{course.courseCode}"
+                android:clickable="false"
+                android:textSize="@dimen/current_courses_size"
+                tools:text="MTH 111" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="32dp">
+
+                <TextView
+                    android:id="@+id/txt_course_name_prompt"
+                    android:textSize="@dimen/course_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    tools:text="Course Name: " />
+
+                <TextView
+                    android:id="@+id/txt_course_name"
+                    android:textSize="@dimen/course_name"
+                    android:layout_width="wrap_content"
+                    android:text="@{course.courseName}"
+                    android:layout_height="wrap_content"
+                    tools:text="English" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

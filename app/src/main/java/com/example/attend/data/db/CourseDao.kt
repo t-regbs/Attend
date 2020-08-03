@@ -2,6 +2,7 @@ package com.example.attend.data.db
 
 import androidx.room.*
 import com.example.attend.data.model.Course
+import com.example.attend.data.model.Lecturer
 
 @Dao
 interface CourseDao {
@@ -14,9 +15,9 @@ interface CourseDao {
     @Delete
     suspend fun deleteCourse(course: Course)
 
-    @Query("DELETE FROM courses")
-    suspend fun clearCourses()
-
     @Query("SELECT * FROM courses WHERE courseId = :id LIMIT 1")
     suspend fun getCourse(id: Int): Course
+
+    @Query("SELECT * FROM courses ORDER BY courseId DESC")
+    suspend fun getCourses(): List<Course>
 }

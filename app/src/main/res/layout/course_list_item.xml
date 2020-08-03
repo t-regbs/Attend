@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/course"
-    android:layout_height="wrap_content"
-    android:layout_width="wrap_content"
-    android:layout_margin="8dp"
-    tools:text="DLD111"/>
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="course"
+            type="com.example.attend.data.model.Course" />
+    </data>
+
+    <TextView
+        android:id="@+id/courseCode"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@{course.courseCode}"
+        android:layout_margin="8dp"
+        tools:text="DLD111" />
+</layout>

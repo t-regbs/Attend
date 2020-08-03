@@ -1,13 +1,26 @@
 package com.example.attend.ui.course
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.attend.data.model.Course
+import com.example.attend.data.repository.AttendanceRepository
+import kotlinx.coroutines.launch
 
-class CoursesViewModel : ViewModel() {
+class CoursesViewModel(private val repository: AttendanceRepository) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is slideshow Fragment"
+    val courses = MutableLiveData<List<Course>>()
+
+    fun getCourses() {
+        viewModelScope.launch {
+            val courseList = repository.getCourses()
+            courses.postValue(courseList)
+        }
     }
-    val text: LiveData<String> = _text
+
+    fun submitCourse(courseCode: String, courseName: String, lecturerId: Int) {
+        viewModelScope.launch {
+            repository.addNewCourse(courseCode, courseName, lecturerId)
+        }
+    }
 }

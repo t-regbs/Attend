@@ -7,7 +7,7 @@ import com.example.attend.data.model.StudentWithCourses
 @Dao
 interface StudentDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertStudent(student: Student)
+    suspend fun insertStudent(student: Student): Long
 
     @Update
     suspend fun updateStudent(student: Student)

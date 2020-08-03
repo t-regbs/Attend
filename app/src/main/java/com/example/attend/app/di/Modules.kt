@@ -4,7 +4,9 @@ import android.app.Application
 import androidx.room.Room
 import com.example.attend.data.db.*
 import com.example.attend.data.repository.AttendanceRepository
+import com.example.attend.ui.course.CoursesViewModel
 import com.example.attend.ui.lecturer.LecturerViewModel
+import com.example.attend.ui.student.StudentViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -12,6 +14,14 @@ import org.koin.dsl.module
 val viewModelModule = module {
     viewModel {
         LecturerViewModel(get())
+    }
+
+    viewModel {
+        CoursesViewModel(get())
+    }
+
+    viewModel {
+        StudentViewModel(get())
     }
 }
 
@@ -52,9 +62,12 @@ val databaseModule = module {
 }
 
 val repositoryModule = module {
-    fun provideRepository(lecturerDao: LecturerDao): AttendanceRepository {
-        return AttendanceRepository(lecturerDao)
+    fun provideRepository(lecturerDao: LecturerDao,
+                          courseDao: CourseDao,
+                          studentDao: StudentDao,
+                          studentCourseCrossRefDao: StudentCourseCrossRefDao): AttendanceRepository {
+        return AttendanceRepository(lecturerDao, courseDao, studentDao, studentCourseCrossRefDao)
     }
 
-    single { provideRepository(get()) }
+    single { provideRepository(get(), get(), get(), get()) }
 }
