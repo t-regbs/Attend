@@ -1,6 +1,7 @@
 package com.example.attend.app
 
 import android.app.Application
+import com.example.attend.app.di.authModule
 import com.example.attend.app.di.databaseModule
 import com.example.attend.app.di.repositoryModule
 import com.example.attend.app.di.viewModelModule
@@ -17,7 +18,7 @@ class AttendanceApplication : Application() {
         startKoin {
             androidLogger(Level.DEBUG)
             androidContext(this@AttendanceApplication)
-            modules(listOf(databaseModule, viewModelModule, repositoryModule))
+            modules(listOf(databaseModule, viewModelModule, repositoryModule, authModule))
         }
     }
 }

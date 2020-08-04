@@ -1,28 +1,41 @@
 package com.example.attend.app.di
 
 import android.app.Application
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
+import androidx.lifecycle.SavedStateHandle
 import androidx.room.Room
+import com.example.attend.app.AuthenticationManager
 import com.example.attend.data.db.*
 import com.example.attend.data.repository.AttendanceRepository
 import com.example.attend.ui.course.CoursesViewModel
 import com.example.attend.ui.lecturer.LecturerViewModel
+import com.example.attend.ui.login.LoginViewModel
 import com.example.attend.ui.student.StudentViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel {
-        LecturerViewModel(get())
+    viewModel { LecturerViewModel(get()) }
+
+    viewModel { CoursesViewModel(get()) }
+
+    viewModel { StudentViewModel(get()) }
+
+    viewModel { (handle: SavedStateHandle) -> LoginViewModel(handle, get()) }
+
+}
+val authModule = module {
+    fun provideSharedPref(app: Application): SharedPreferences =
+        PreferenceManager.getDefaultSharedPreferences(app)
+
+    fun provideAuthenticationManager(sharedPreferences: SharedPreferences): AuthenticationManager {
+        return AuthenticationManager(sharedPreferences)
     }
 
-    viewModel {
-        CoursesViewModel(get())
-    }
-
-    viewModel {
-        StudentViewModel(get())
-    }
+    single { provideSharedPref(androidApplication()) }
+    single { provideAuthenticationManager(get()) }
 }
 
 val databaseModule = module {

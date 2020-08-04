@@ -34,5 +34,6 @@
     <string name="add_course">Add Course</string>
     <string name="add_lecturer">Add Lecturer</string>
     <string name="attendance">Attendance</string>
+    <string name="action_logout">Logout</string>
 
 </resources>
