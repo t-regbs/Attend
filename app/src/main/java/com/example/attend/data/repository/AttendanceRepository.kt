@@ -39,6 +39,9 @@ class AttendanceRepository(private val lecturerDao: LecturerDao,
     suspend fun getStudentWithCourses(): List<StudentWithCourses> {
         return studentCourseCrossRefDao.getStudentsWithCourses()
     }
+    suspend fun getCourseWithStudentsFromCode(courseCode: String): CourseWithStudents {
+        return studentCourseCrossRefDao.getCoursesWithStudentsFromCode(courseCode)
+    }
 
     suspend fun addStudentWithSelectedCourses(
             firstName: String,

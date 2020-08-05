@@ -87,11 +87,11 @@ class LecturerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 findNavController(R.id.lecturer_nav_host_fragment).navigate(R.id.nav_home, null, navOptions)
             }
 
-//            R.id.nav_course -> {
-//                if(isValidDestination(R.id.nav_course)){
-//                    findNavController(R.id.nav_host_fragment).navigate(R.id.nav_course)
-//                }
-//            }
+            R.id.nav_lecturer_students -> {
+                if(isValidDestination(R.id.nav_lecturer_students)){
+                    findNavController(R.id.lecturer_nav_host_fragment).navigate(R.id.nav_lecturer_students)
+                }
+            }
 //
 //            R.id.nav_lecturer -> {
 //                if(isValidDestination(R.id.nav_lecturer)){
@@ -117,6 +117,6 @@ class LecturerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     private fun isValidDestination(destination : Int):Boolean{
-        return destination != findNavController(R.id.nav_host_fragment).currentDestination?.id
+        return destination != findNavController(R.id.lecturer_nav_host_fragment).currentDestination?.id
     }
 }

@@ -28,6 +28,32 @@
                 app:argType="string"
                 app:nullable="false" />
         </fragment>
+
+        <fragment
+            android:id="@+id/nav_lecturer_students"
+            android:name="com.example.attend.ui.lecstudents.LecStudentFragment"
+            android:label="@string/menu_students"
+            tools:layout="@layout/lec_student_fragment" >
+            <action
+                android:id="@+id/action_nav_lecturer_students_to_nav_students_list"
+                app:destination="@+id/nav_students_list">
+                <argument
+                    android:name="courseCode"
+                    app:argType="string"
+                    app:nullable="false" />
+            </action>
+        </fragment>
+
+        <fragment
+            android:id="@+id/nav_students_list"
+            android:name="com.example.attend.ui.lecstudents.LecStudentListFragment"
+            android:label="@string/menu_students"
+            tools:layout="@layout/lec_student_list_fragment">
+            <argument
+                android:name="courseCode"
+                app:argType="string"
+                app:nullable="false" />
+        </fragment>
     </navigation>
 
     <navigation android:id="@+id/logged_out_graph"
