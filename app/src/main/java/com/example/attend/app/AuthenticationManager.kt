@@ -19,5 +19,10 @@ class AuthenticationManager(val sharedPref: SharedPreferences) {
         return checkNotNull(sharedPref.getString("username", "").takeIf { it!!.isNotEmpty() })
     }
 
+    fun getUserType(): String =
+        checkNotNull(sharedPref.getString("userType", "").takeIf { it!!.isNotEmpty() })
+
+    fun getUserId(): String = checkNotNull(sharedPref.getString("userId", "").takeIf { it!!.isNotEmpty() })
+
     var authToken: String = "" // why would this be in the viewModel?
 }

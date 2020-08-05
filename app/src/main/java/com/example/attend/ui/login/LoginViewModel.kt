@@ -19,16 +19,18 @@ class LoginViewModel(
 
     val username: MutableLiveData<String> = savedStateHandle.getLiveData("username", "")
     val password: MutableLiveData<String> = savedStateHandle.getLiveData("password", "")
+    val userType: MutableLiveData<String> = savedStateHandle.getLiveData("userType", "")
+    val userId: MutableLiveData<String> = savedStateHandle.getLiveData("userId", "")
 
     val canNavigate = MutableLiveData<String>()
     val errorEmitter = MutableLiveData<String>()
 
     fun onLoginClicked() {
         if (username.value!!.isNotBlank() && password.value!!.isNotBlank()) {
-            val username = username.value!!
+            val user = userType.value!!
 
-            authenticationManager.saveRegistration(username)
-            canNavigate.postValue(username)
+            authenticationManager.saveRegistration(user)
+            canNavigate.postValue(user)
         } else {
             errorEmitter.postValue("Invalid username or password!")
         }

@@ -18,6 +18,9 @@ interface CourseDao {
     @Query("SELECT * FROM courses WHERE courseId = :id LIMIT 1")
     suspend fun getCourse(id: Int): Course
 
+    @Query("SELECT * FROM courses WHERE lecturer_taking_id = :id ORDER BY courseId DESC")
+    suspend fun getCourseFromLecturerId(id: Int): List<Course>
+
     @Query("SELECT * FROM courses ORDER BY courseId DESC")
     suspend fun getCourses(): List<Course>
 }

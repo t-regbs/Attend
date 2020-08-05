@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="user_type_array">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
+        <item>Admin</item>
+        <item>Lecturer</item>
+        <item>Student</item>
     </string-array>
 </resources>

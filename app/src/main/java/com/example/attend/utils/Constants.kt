@@ -12,5 +12,6 @@ val NO_HOME_ICON_FRAGMENTS = arrayOf(
      R.id.nav_attendance,
      R.id.nav_lecturer,
      R.id.nav_course,
-     R.id.nav_student
+     R.id.nav_student,
+     R.id.nav_home
  )

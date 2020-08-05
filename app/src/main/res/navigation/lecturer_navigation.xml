@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lecturer_navigation"
+    app:startDestination="@id/logged_in_graph">
+
+    <navigation android:id="@+id/logged_in_graph"
+        app:startDestination="@+id/nav_home">
+
+        <action
+            android:id="@+id/logged_in_to_logged_out"
+            app:destination="@id/logged_out_graph"
+            app:enterAnim="@anim/slide_in_from_left"
+            app:exitAnim="@anim/slide_out_to_right"
+            app:popEnterAnim="@anim/slide_out_to_left"
+            app:popExitAnim="@anim/slide_in_from_left"
+            app:popUpTo="@id/logged_in_graph"
+            app:popUpToInclusive="true" />
+
+        <fragment
+            android:id="@+id/nav_home"
+            android:name="com.example.attend.ui.home.HomeFragment"
+            android:label="@string/home"
+            tools:layout="@layout/home_fragment" >
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+        </fragment>
+    </navigation>
+
+    <navigation android:id="@+id/logged_out_graph"
+        app:startDestination="@+id/login_fragment">
+
+        <fragment android:id="@+id/login_fragment"
+            android:name="com.example.attend.ui.login.LoginFragment"
+            android:label="@string/action_login"
+            tools:layout="@layout/fragment_login"/>
+    </navigation>
+
+</navigation>

@@ -1,33 +1,33 @@
-package com.example.attend.ui.splash
+package com.example.attend.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
+import com.example.attend.LecturerActivity
 import com.example.attend.R
 import com.example.attend.SplashGraphDirections
 import com.example.attend.app.AuthenticationManager
 import org.koin.android.ext.android.inject
 
-class SplashFragment: Fragment() {
+class RouteFragment: Fragment() {
 
     private val handler = Handler()
-    private val authenticationManager by inject<AuthenticationManager>()
+    private lateinit var userType: String
 
     private val finishSplash: Runnable = Runnable {
-        if (authenticationManager.isAuthenticated()) {
-            Navigation.findNavController(requireView()).navigate(
-                    SplashGraphDirections.splashToLoggedIn(
-                        authenticationManager.getUserType()
-                    )
-                )
+        if (userType == "Lecturer") {
+            activity?.startActivity(Intent(activity,LecturerActivity::class.java))
         } else {
-            Navigation.findNavController(requireView()).navigate(R.id.splash_to_logged_out)
+            Navigation.findNavController(requireView()).navigate(
+                    RouteFragmentDirections.actionNavRoutingToNavStudent()
+            )
         }
-//        Navigation.findNavController(requireView()).navigate(R.id.splash_to_logged_out)
 
     }
 
@@ -35,9 +35,10 @@ class SplashFragment: Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-//        authenticationManager.clearRegistration()
-        return inflater.inflate(R.layout.fragment_splash, container, false)
+        val safeArgs: RouteFragmentArgs by navArgs()
+        userType = safeArgs.userType
+
+        return inflater.inflate(R.layout.fragment_route, container, false)
     }
 
 

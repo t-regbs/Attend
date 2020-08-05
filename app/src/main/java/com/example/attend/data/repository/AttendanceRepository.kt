@@ -61,4 +61,8 @@ class AttendanceRepository(private val lecturerDao: LecturerDao,
         crossRefsInserted.forEach { Timber.d("id: $it") }
         return crossRefsInserted
     }
+
+    suspend fun getCoursesWithId(lecturerId: Int): List<Course> {
+        return courseDao.getCourseFromLecturerId(lecturerId)
+    }
 }

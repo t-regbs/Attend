@@ -9,6 +9,7 @@ import com.example.attend.app.AuthenticationManager
 import com.example.attend.data.db.*
 import com.example.attend.data.repository.AttendanceRepository
 import com.example.attend.ui.course.CoursesViewModel
+import com.example.attend.ui.home.HomeViewModel
 import com.example.attend.ui.lecturer.LecturerViewModel
 import com.example.attend.ui.login.LoginViewModel
 import com.example.attend.ui.student.StudentViewModel
@@ -20,6 +21,8 @@ val viewModelModule = module {
     viewModel { LecturerViewModel(get()) }
 
     viewModel { CoursesViewModel(get()) }
+
+    viewModel { HomeViewModel(get()) }
 
     viewModel { StudentViewModel(get()) }
 
