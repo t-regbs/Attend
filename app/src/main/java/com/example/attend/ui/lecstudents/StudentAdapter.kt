@@ -36,7 +36,6 @@ class StudentAdapter :
         }
 
         fun bind(student: Student){
-            val empty = ""
             studentListItemBinding.student = student
             studentListItemBinding.executePendingBindings()
         }

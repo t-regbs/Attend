@@ -7,12 +7,15 @@ val NO_HOME_ICON_FRAGMENTS = arrayOf(
      R.id.lecturerAddFragment,
      R.id.studentAddFragment,
      R.id.login_fragment,
-     R.id.nav_students_list
+     R.id.nav_students_list,
+     R.id.nav_take_attendance_list
  )
  val TOP_LEVEL_FRAGMENTS = arrayOf(
      R.id.nav_attendance,
      R.id.nav_lecturer,
      R.id.nav_course,
      R.id.nav_student,
-     R.id.nav_home
+     R.id.nav_home,
+     R.id.nav_lecturer_students,
+     R.id.nav_take_attendance
  )

@@ -54,6 +54,30 @@
                 app:argType="string"
                 app:nullable="false" />
         </fragment>
+        <fragment
+            android:id="@+id/nav_take_attendance"
+            android:name="com.example.attend.ui.takeattendance.SelectAttendanceFragment"
+            android:label="@string/take_attendance"
+            tools:layout="@layout/select_attendance_fragment">
+            <action
+                android:id="@+id/action_selectAttendanceFragment_to_takeAttendanceFragment"
+                app:destination="@id/nav_take_attendance_list" >
+                <argument
+                    android:name="courseCode"
+                    app:argType="string"
+                    app:nullable="false" />
+            </action>
+        </fragment>
+        <fragment
+            android:id="@+id/nav_take_attendance_list"
+            android:name="com.example.attend.ui.takeattendance.TakeAttendanceFragment"
+            android:label="@string/take_attendance"
+            tools:layout="@layout/fragment_take_attendance">
+            <argument
+                android:name="courseCode"
+                app:argType="string"
+                app:nullable="false" />
+        </fragment>
     </navigation>
 
     <navigation android:id="@+id/logged_out_graph"

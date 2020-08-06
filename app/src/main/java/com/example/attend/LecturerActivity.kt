@@ -92,12 +92,12 @@ class LecturerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                     findNavController(R.id.lecturer_nav_host_fragment).navigate(R.id.nav_lecturer_students)
                 }
             }
-//
-//            R.id.nav_lecturer -> {
-//                if(isValidDestination(R.id.nav_lecturer)){
-//                    findNavController(R.id.nav_host_fragment).navigate(R.id.nav_lecturer)
-//                }
-//            }
+
+            R.id.nav_take_attendance -> {
+                if(isValidDestination(R.id.nav_take_attendance)){
+                    findNavController(R.id.lecturer_nav_host_fragment).navigate(R.id.nav_take_attendance)
+                }
+            }
 //
 //            R.id.nav_attendance -> {
 //                if(isValidDestination(R.id.nav_attendance)){

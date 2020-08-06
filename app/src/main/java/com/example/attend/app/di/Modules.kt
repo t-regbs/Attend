@@ -14,6 +14,7 @@ import com.example.attend.ui.lecstudents.LecStudentViewModel
 import com.example.attend.ui.lecturer.LecturerViewModel
 import com.example.attend.ui.login.LoginViewModel
 import com.example.attend.ui.student.StudentViewModel
+import com.example.attend.ui.takeattendance.SelectAttendanceViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -26,6 +27,8 @@ val viewModelModule = module {
     viewModel { HomeViewModel(get()) }
 
     viewModel { LecStudentViewModel(get()) }
+
+    viewModel { SelectAttendanceViewModel(get()) }
 
     viewModel { StudentViewModel(get()) }
 

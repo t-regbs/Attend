@@ -11,7 +11,6 @@
     <string name="menu_students">Students</string>
     <string name="menu_lecturer">Lecturer</string>
     <string name="menu_course">Course</string>
-    <string name="take_attendance">Take Attendance</string>
     <string name="view_attendance">View Attendance</string>
     <string name="change_password">Change Password</string>
     <!-- Strings related to login -->
@@ -47,5 +46,10 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="get_student">Get Student</string>
     <string name="phone">Phone:</string>
+    <string name="submit">Submit</string>
+    <string name="present">Present</string>
+    <string name="absent">Absent</string>
+    <string name="excused">Excused</string>
+    <string name="take_attendance">Take Attendance</string>
 
 </resources>
