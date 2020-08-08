@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.attend.data.model.Student
 import com.example.attend.databinding.FragmentTakeAttendanceBinding
@@ -20,6 +22,8 @@ class TakeAttendanceFragment : Fragment() {
     private lateinit var courseCode: String
     private lateinit var studentListAdapter: TakeAttendanceAdapter
 
+    private val hmAttendance = HashMap<Student, String>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,6 +32,7 @@ class TakeAttendanceFragment : Fragment() {
         studentListAdapter = TakeAttendanceAdapter(object: OnItemClickedListener {
             override fun onRbClicked(status: String, student: Student) {
                 Timber.d("Student: ${student.firstName}, Status: $status")
+                hmAttendance[student] = status
             }
 
         })
@@ -48,11 +53,17 @@ class TakeAttendanceFragment : Fragment() {
             val list = courseWithStudents.students
             studentListAdapter.submitList(list)
         })
+
+        listViewModel.inserted.observe(viewLifecycleOwner, Observer {
+            Toast.makeText(context, "Attendance Inserted", Toast.LENGTH_SHORT).show()
+            findNavController().popBackStack()
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listViewModel.getCourseWithStudents(courseCode)
         setupObserver()
+        binding.btnSubmit.setOnClickListener { listViewModel.takeAttendance(hmAttendance, courseCode) }
     }
 }

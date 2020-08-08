@@ -77,7 +77,7 @@ class LecturerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(
-            this.findNavController(R.id.nav_host_fragment), drawerLayout)
+            this.findNavController(R.id.lecturer_nav_host_fragment), drawerLayout)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -98,13 +98,13 @@ class LecturerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                     findNavController(R.id.lecturer_nav_host_fragment).navigate(R.id.nav_take_attendance)
                 }
             }
-//
-//            R.id.nav_attendance -> {
-//                if(isValidDestination(R.id.nav_attendance)){
-//                    findNavController(R.id.nav_host_fragment).navigate(R.id.nav_attendance)
-//                }
-//            }
-//
+
+            R.id.nav_view_attendance -> {
+                if(isValidDestination(R.id.nav_view_attendance)){
+                    findNavController(R.id.lecturer_nav_host_fragment).navigate(R.id.nav_view_attendance)
+                }
+            }
+
             R.id.nav_logout -> {
                 authenticationManager.clearRegistration()
                 val navOptions = NavOptions.Builder().setPopUpTo(R.id.logged_out_graph, true).build()

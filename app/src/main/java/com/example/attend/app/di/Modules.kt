@@ -8,6 +8,7 @@ import androidx.room.Room
 import com.example.attend.app.AuthenticationManager
 import com.example.attend.data.db.*
 import com.example.attend.data.repository.AttendanceRepository
+import com.example.attend.ui.attendance.AttendanceViewModel
 import com.example.attend.ui.course.CoursesViewModel
 import com.example.attend.ui.home.HomeViewModel
 import com.example.attend.ui.lecstudents.LecStudentViewModel
@@ -23,6 +24,8 @@ val viewModelModule = module {
     viewModel { LecturerViewModel(get()) }
 
     viewModel { CoursesViewModel(get()) }
+
+    viewModel { AttendanceViewModel(get()) }
 
     viewModel { HomeViewModel(get()) }
 
@@ -87,9 +90,10 @@ val repositoryModule = module {
     fun provideRepository(lecturerDao: LecturerDao,
                           courseDao: CourseDao,
                           studentDao: StudentDao,
-                          studentCourseCrossRefDao: StudentCourseCrossRefDao): AttendanceRepository {
-        return AttendanceRepository(lecturerDao, courseDao, studentDao, studentCourseCrossRefDao)
+                          studentCourseCrossRefDao: StudentCourseCrossRefDao,
+                          attendanceDao: AttendanceDao): AttendanceRepository {
+        return AttendanceRepository(lecturerDao, courseDao, studentDao, studentCourseCrossRefDao, attendanceDao)
     }
 
-    single { provideRepository(get(), get(), get(), get()) }
+    single { provideRepository(get(), get(), get(), get(), get()) }
 }

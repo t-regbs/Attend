@@ -8,6 +8,9 @@ interface AttendanceDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAttendance(attendance: Attendance)
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertMultipleAttendance(attendanceList: List<Attendance>): Array<Long>
+
     @Delete
     suspend fun deleteAttendance(attendance: Attendance)
 

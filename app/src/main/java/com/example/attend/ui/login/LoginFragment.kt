@@ -41,7 +41,8 @@ class LoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private fun setupObservers() {
         loginViewModel.canNavigate.observe(viewLifecycleOwner, Observer {
-            activity?.startActivity(Intent(context, LecturerActivity::class.java))
+//            activity?.startActivity(Intent(context, LecturerActivity::class.java))
+            findNavController().navigate(LoggedOutGraphDirections.loggedOutToLoggedIn(it))
         })
 
         loginViewModel.errorEmitter.observe(viewLifecycleOwner, Observer{

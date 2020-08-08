@@ -51,5 +51,6 @@
     <string name="absent">Absent</string>
     <string name="excused">Excused</string>
     <string name="take_attendance">Take Attendance</string>
+    <string name="attendance_report">Attendance Report</string>
 
 </resources>

@@ -9,15 +9,15 @@ object Converters {
 
     @TypeConverter
     @JvmStatic
-    fun toOffsetDateTime(value: String?): OffsetDateTime? {
-        return value?.let {
+    fun toOffsetDateTime(value: String): OffsetDateTime {
+        return value.let {
             return formatter.parse(value, OffsetDateTime::from)
         }
     }
 
     @TypeConverter
     @JvmStatic
-    fun fromOffsetDateTime(date: OffsetDateTime?): String? {
-        return date?.format(formatter)
+    fun fromOffsetDateTime(date: OffsetDateTime): String {
+        return date.format(formatter)
     }
 }

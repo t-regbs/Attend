@@ -21,7 +21,8 @@ class SplashFragment: Fragment() {
         if (authenticationManager.isAuthenticated()) {
             Navigation.findNavController(requireView()).navigate(
                     SplashGraphDirections.splashToLoggedIn(
-                        authenticationManager.getUserType()
+//                        authenticationManager.getUserType()?: "Admin"
+                    "Admin"
                     )
                 )
         } else {
