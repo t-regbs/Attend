@@ -7,9 +7,6 @@
         <variable
             name="studentWithCourses"
             type="com.example.attend.data.model.StudentWithCourses" />
-        <variable
-            name="emptyText"
-            type="String" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -51,10 +48,10 @@
             </LinearLayout>
 
 
-            <LinearLayout
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_courses"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/txt_current_courses"
@@ -63,85 +60,7 @@
                     android:layout_height="wrap_content"
                     android:text="Current Courses: " />
 
-                <TextView
-                    android:id="@+id/course1"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:paddingEnd="4dp"
-                    android:text="@{0>=studentWithCourses.courses.size()? emptyText : studentWithCourses.courses[0].courseCode }"
-                    tools:text="DLD111"
-                    android:paddingRight="4dp" />
-
-                <TextView
-                    android:id="@+id/course2"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:paddingEnd="4dp"
-                    android:text="@{1>=studentWithCourses.courses.size()? emptyText : studentWithCourses.courses[1].courseCode }"
-                    tools:text="DLD111"
-                    android:paddingRight="4dp" />
-
-                <TextView
-                    android:id="@+id/course3"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:paddingEnd="4dp"
-                    android:text="@{2>=studentWithCourses.courses.size()? emptyText : studentWithCourses.courses[2].courseCode }"
-                    tools:text="DLD111"
-                    android:paddingRight="4dp" />
-
-                <TextView
-                    android:id="@+id/course4"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:paddingEnd="4dp"
-                    android:text="@{3>=studentWithCourses.courses.size()? emptyText : studentWithCourses.courses[3].courseCode }"
-                    tools:text="DLD111"
-                    android:paddingRight="4dp" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/course5"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:paddingStart="136dp"
-                    android:paddingEnd="4dp"
-                    android:text="@{4>=studentWithCourses.courses.size()? emptyText : studentWithCourses.courses[4].courseCode }"
-                    tools:text="DLD111"
-                    android:paddingRight="4dp"
-                    android:paddingLeft="136dp" />
-
-                <TextView
-                    android:id="@+id/course6"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:paddingEnd="4dp"
-                    android:text="@{5>=studentWithCourses.courses.size()? emptyText : studentWithCourses.courses[5].courseCode }"
-                    tools:text="DLD111"
-                    android:paddingRight="4dp" />
-
-                <TextView
-                    android:id="@+id/course7"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:paddingEnd="4dp"
-                    android:text="@{6>=studentWithCourses.courses.size()? emptyText : studentWithCourses.courses[6].courseCode }"
-                    tools:text="DLD111"
-                    android:paddingRight="4dp" />
-
-                <TextView
-                    android:id="@+id/course8"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:paddingEnd="4dp"
-                    android:text="@{7>=studentWithCourses.courses.size()? emptyText : studentWithCourses.courses[7].courseCode }"
-                    tools:text="DLD111"
-                    android:paddingRight="4dp" />
-            </LinearLayout>
+            </com.google.android.material.chip.ChipGroup>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

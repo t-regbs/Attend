@@ -82,7 +82,26 @@
             android:id="@+id/nav_view_attendance"
             android:name="com.example.attend.ui.attendance.AttendanceFragment"
             android:label="@string/attendance_report"
-            tools:layout="@layout/fragment_attendance"/>
+            tools:layout="@layout/fragment_attendance">
+            <action
+                android:id="@+id/action_nav_view_attendance_to_attendanceReportFragment"
+                app:destination="@id/attendanceReportFragment" >
+                <argument
+                    android:name="courseList"
+                    app:argType="com.example.attend.data.model.Course[]"
+                    app:nullable="false" />
+            </action>
+        </fragment>
+        <fragment
+            android:id="@+id/attendanceReportFragment"
+            android:name="com.example.attend.ui.attendancereport.AttendanceReportFragment"
+            android:label="AttendanceReportFragment"
+            tools:layout="@layout/attendance_report_fragment">
+            <argument
+                android:name="courseList"
+                app:argType="com.example.attend.data.model.Course[]"
+                app:nullable="false" />
+        </fragment>
     </navigation>
 
     <navigation android:id="@+id/logged_out_graph"

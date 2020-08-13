@@ -24,7 +24,7 @@ class SelectAttendanceViewModel(private val repository: AttendanceRepository) : 
     fun takeAttendance(hmAttendance: HashMap<Student, String>, courseCode: String) {
         viewModelScope.launch {
             val courseId = getCourseIdFromCourseCode(courseCode)
-            val insertedAttendance = repository.addNewAttendance(hmAttendance, courseId)
+            val insertedAttendance = repository.addNewAttendance(hmAttendance, courseId, courseCode)
             inserted.postValue(insertedAttendance)
         }
 

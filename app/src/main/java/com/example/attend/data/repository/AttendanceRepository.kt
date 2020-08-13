@@ -3,7 +3,6 @@ package com.example.attend.data.repository
 import com.example.attend.data.db.*
 import com.example.attend.data.model.*
 import org.threeten.bp.OffsetDateTime
-import org.threeten.bp.OffsetTime
 import timber.log.Timber
 
 class AttendanceRepository(private val lecturerDao: LecturerDao,
@@ -43,16 +42,29 @@ class AttendanceRepository(private val lecturerDao: LecturerDao,
         return studentCourseCrossRefDao.getCoursesWithStudentsFromCode(courseCode)
     }
 
+    suspend fun getCourseWithStudentsFromCodeList(list: List<CourseWithAttendances>): List<CourseWithStudents> {
+        val ans = ArrayList<CourseWithStudents>()
+        for (item in list) {
+            val thing = getCourseWithStudentsFromCode(item.course.courseCode)
+            ans.add(thing)
+        }
+        return ans
+    }
+
     suspend fun addNewAttendance(
-        hmAttendance: HashMap<Student, String>,
-        courseId: Int
+            hmAttendance: HashMap<Student, String>,
+            courseId: Int,
+            courseCode: String
     ): Array<Long> {
         val list = ArrayList<Attendance>()
         for (item in hmAttendance) {
             list.add(Attendance(date = OffsetDateTime.now(),
                 studentId = item.key.studentId,
                 courseId = courseId,
-                attendanceStatus = item.value
+                attendanceStatus = item.value,
+                studentFirstName = item.key.firstName,
+                studentLastName = item.key.lastName,
+                courseCode = courseCode
             ))
         }
         return attendanceDao.insertMultipleAttendance(list)
@@ -86,5 +98,35 @@ class AttendanceRepository(private val lecturerDao: LecturerDao,
 
     suspend fun getCourseIdFromCourseCode(courseCode: String): Int {
         return courseDao.getCourseIdFromCourseCode(courseCode)
+    }
+
+    suspend fun getCourseWithAttendancesListFromId(courseList: Array<Course>): List<CourseWithAttendances> {
+        val list = ArrayList<CourseWithAttendances>()
+        for (course in courseList) {
+            val courseWithAttendances = getCourseWithAttendanceFromId(course.courseId)
+            list.add(courseWithAttendances)
+        }
+        return list
+    }
+
+    private suspend fun getCourseWithAttendanceFromId(id: Int): CourseWithAttendances {
+        return attendanceDao.getCourseWithAttendanceFromCourseId(id)
+    }
+
+    suspend fun getStudentsWithAttendanceFromStudent(studentList: List<CourseWithStudents>): List<StudentWithAttendances> {
+        val list = ArrayList<StudentWithAttendances>()
+        for (item in studentList) {
+            for (student in item.students) {
+                val studentWithAttendances = getStudentWithAttendanceFromId(student.studentId)
+                if (!list.contains(studentWithAttendances)) {
+                    list.add(studentWithAttendances)
+                }
+            }
+        }
+        return list
+    }
+
+    private suspend fun getStudentWithAttendanceFromId(studentId: Int): StudentWithAttendances {
+        return attendanceDao.getStudentWithAttendanceFromId(studentId)
     }
 }

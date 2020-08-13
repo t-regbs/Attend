@@ -2,6 +2,8 @@ package com.example.attend.ui.student
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -36,7 +38,18 @@ class StudentListAdapter :
         fun bind(studentWithCourses: StudentWithCourses){
             val empty = ""
             studentListItemBinding.studentWithCourses = studentWithCourses
-            studentListItemBinding.emptyText = empty
+            for (course in studentWithCourses.courses) {
+                val courseTv = TextView(studentListItemBinding.root.context)
+
+                courseTv.layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT)
+
+
+                courseTv.text = course.courseCode
+                courseTv.setPadding(4, 4, 4, 4)
+                studentListItemBinding.chipGroupCourses.addView(courseTv)
+            }
             studentListItemBinding.executePendingBindings()
         }
     }

@@ -1,17 +1,14 @@
 package com.example.attend.ui.attendance
 
-import android.app.DatePickerDialog
-import android.app.DatePickerDialog.OnDateSetListener
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.fragment.findNavController
 import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.datetime.datePicker
 import com.afollestad.materialdialogs.list.customListAdapter
 import com.example.attend.R
@@ -19,12 +16,10 @@ import com.example.attend.data.model.Course
 import com.example.attend.databinding.FragmentAttendanceBinding
 import com.example.attend.ui.student.CourseSelectAdapter
 import com.example.attend.ui.student.CourseSelectAdapter.*
-import com.example.attend.ui.takeattendance.TakeAttendanceAdapter
-import com.example.attend.ui.takeattendance.TakeAttendanceAdapter.*
-import kotlinx.android.synthetic.main.fragment_course_select_attendance.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class AttendanceFragment : Fragment() {
@@ -35,6 +30,7 @@ class AttendanceFragment : Fragment() {
     private lateinit var dialog: MaterialDialog
 
     private lateinit var myCalendar: Calendar
+    private val courseSelected = ArrayList<Course>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,11 +38,11 @@ class AttendanceFragment : Fragment() {
     ): View? {
         adapter = CourseSelectAdapter(object: OnItemCheckedListener {
             override fun onItemCheck(course: Course?) {
-                TODO("Not yet implemented")
+                courseSelected.add(course!!)
             }
 
             override fun onItemUncheck(course: Course?) {
-                TODO("Not yet implemented")
+                courseSelected.remove(course)
             }
 
         })
@@ -58,7 +54,7 @@ class AttendanceFragment : Fragment() {
 
         binding.startDate.editText?.setOnClickListener {
             MaterialDialog(requireContext()).show {
-                datePicker { dialog, date ->
+                datePicker { _, date ->
                     myCalendar = date
                     updateStartLabel()
                 }
@@ -67,7 +63,7 @@ class AttendanceFragment : Fragment() {
 
         binding.endDate.editText?.setOnClickListener {
             MaterialDialog(requireContext()).show { 
-                datePicker { dialog, date ->
+                datePicker { _, date ->
                     myCalendar = date
                     updateEndLabel()
                 }
@@ -91,12 +87,17 @@ class AttendanceFragment : Fragment() {
 
     private fun showDialog() {
         dialog = MaterialDialog(requireContext())
-            .noAutoDismiss()
-//            .customView(R.layout.fragment_course_select_attendance)
             .show {
+                noAutoDismiss()
                 customListAdapter(adapter)
                 positiveButton(R.string.submit){
-
+                    //Send selected courses to attendance report fragment for display
+                    if (courseSelected.isNotEmpty()) {
+                        findNavController().navigate(AttendanceFragmentDirections
+                                .actionNavViewAttendanceToAttendanceReportFragment(courseSelected.toTypedArray()))
+                    } else {
+                        Toast.makeText(context, "Nothing is selected", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
 

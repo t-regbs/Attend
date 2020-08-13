@@ -68,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:text="@{student.contactNum}"
                     android:layout_height="wrap_content"
-                    tools:text="Drawing" />
+                    tools:text="07038585481" />
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

@@ -14,5 +14,8 @@ data class Attendance(
         @ColumnInfo(name = "attendance_status")
         val attendanceStatus: String,
         val studentId: Int,
-        val courseId: Int
+        val courseId: Int,
+        val courseCode: String,
+        val studentFirstName: String,
+        val studentLastName: String
 )
