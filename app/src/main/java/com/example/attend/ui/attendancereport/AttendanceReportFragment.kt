@@ -58,7 +58,7 @@ class AttendanceReportFragment : Fragment() {
             adapter.endDate = endDate
             adapter.startDate = startDate
             reportViewModel.courseWithAttendanceList.observe(viewLifecycleOwner, Observer {
-                adapter.submitList(it)
+                adapter.addHeaderAndSubmitList(it)
             })
         })
 

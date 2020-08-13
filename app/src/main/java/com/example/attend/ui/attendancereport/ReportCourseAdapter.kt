@@ -8,35 +8,92 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.attend.data.db.Converters
-import com.example.attend.data.model.Attendance
 import com.example.attend.data.model.CourseWithAttendances
 import com.example.attend.data.model.StudentWithAttendances
+import com.example.attend.databinding.CourseReportHeaderBinding
 import com.example.attend.databinding.CourseReportItemBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
 
-class ReportCourseAdapter :
-        ListAdapter<CourseWithAttendances, ReportCourseAdapter.ViewHolder>(COMPARATOR){
+private const val ITEM_VIEW_TYPE_HEADER = 0
+private const val ITEM_VIEW_TYPE_ITEM = 1
 
+class ReportCourseAdapter :
+        ListAdapter<ReportItem, RecyclerView.ViewHolder>(COMPARATOR){
+
+    private val adapterScope = CoroutineScope(Dispatchers.Default)
     lateinit var studentWithAttendanceList: List<StudentWithAttendances>
     lateinit var startDate: String
     lateinit var endDate: String
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.fromParent(parent)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val course = getItem(position)
-        course?.let {
-            holder.bind(it, studentWithAttendanceList, startDate, endDate)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            ITEM_VIEW_TYPE_HEADER -> TextViewHolder.from(parent)
+            ITEM_VIEW_TYPE_ITEM -> ViewHolder.fromParent(parent)
+            else -> throw ClassCastException("Unknown viewType $viewType")
         }
     }
 
+    fun addHeaderAndSubmitList(list: List<CourseWithAttendances>) {
+        adapterScope.launch {
+            val items = when (list) {
+                null -> listOf(ReportItem.Header)
+                else -> listOf(ReportItem.Header) + list.map { ReportItem.CourseWithAttendanceItem(it) }
+            }
+            withContext(Dispatchers.Main) {
+                submitList(items)
+            }
+        }
+    }
 
-    class ViewHolder private constructor(val courseReportItemBinding: CourseReportItemBinding):
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when(holder) {
+            is ViewHolder -> {
+                val course = getItem(position) as ReportItem.CourseWithAttendanceItem
+                course.let {
+                    holder.bind(it.courseWithAttendances, studentWithAttendanceList, startDate, endDate)
+                }
+            }
+            is TextViewHolder -> {
+                val start = startDate.substring(0, 10)
+                val end = endDate.substring(0, 10)
+                val text = "Attendance Report from $start to $end"
+                holder.bind(text)
+            }
+        }
+
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return when (getItem(position)) {
+            is ReportItem.Header -> ITEM_VIEW_TYPE_HEADER
+            is ReportItem.CourseWithAttendanceItem -> ITEM_VIEW_TYPE_ITEM
+            else -> -1
+        }
+    }
+
+    class TextViewHolder private constructor(private val headerTextItemBinding: CourseReportHeaderBinding):
+            RecyclerView.ViewHolder(headerTextItemBinding.root) {
+        companion object {
+            fun from(parent: ViewGroup): TextViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = CourseReportHeaderBinding.inflate(layoutInflater, parent, false)
+                return TextViewHolder(binding)
+            }
+        }
+
+        fun bind(headerText: String) {
+            headerTextItemBinding.headerText = headerText
+            headerTextItemBinding.executePendingBindings()
+        }
+    }
+
+    class ViewHolder private constructor(private val courseReportItemBinding: CourseReportItemBinding):
             RecyclerView.ViewHolder(courseReportItemBinding.root) {
         companion object{
             fun fromParent(parent: ViewGroup): ViewHolder{
@@ -105,11 +162,11 @@ class ReportCourseAdapter :
     }
 
     companion object {
-        private val COMPARATOR = object : DiffUtil.ItemCallback<CourseWithAttendances>() {
-            override fun areItemsTheSame(oldItem: CourseWithAttendances, newItem: CourseWithAttendances): Boolean =
-                    oldItem.course.courseId == newItem.course.courseId
+        private val COMPARATOR = object : DiffUtil.ItemCallback<ReportItem>() {
+            override fun areItemsTheSame(oldItem: ReportItem, newItem: ReportItem): Boolean =
+                    oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: CourseWithAttendances, newItem: CourseWithAttendances): Boolean =
+            override fun areContentsTheSame(oldItem: ReportItem, newItem: ReportItem): Boolean =
                     oldItem == newItem
         }
     }
