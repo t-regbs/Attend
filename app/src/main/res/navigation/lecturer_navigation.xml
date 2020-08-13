@@ -90,6 +90,14 @@
                     android:name="courseList"
                     app:argType="com.example.attend.data.model.Course[]"
                     app:nullable="false" />
+                <argument
+                    android:name="startDate"
+                    app:argType="string"
+                    app:nullable="false" />
+                <argument
+                    android:name="endDate"
+                    app:argType="string"
+                    app:nullable="false" />
             </action>
         </fragment>
         <fragment
@@ -100,6 +108,14 @@
             <argument
                 android:name="courseList"
                 app:argType="com.example.attend.data.model.Course[]"
+                app:nullable="false" />
+            <argument
+                android:name="startDate"
+                app:argType="string"
+                app:nullable="false" />
+            <argument
+                android:name="endDate"
+                app:argType="string"
                 app:nullable="false" />
         </fragment>
     </navigation>

@@ -91,12 +91,19 @@ class AttendanceFragment : Fragment() {
                 noAutoDismiss()
                 customListAdapter(adapter)
                 positiveButton(R.string.submit){
+                    val startDate = binding.startDate.editText?.text
+                    val endDate = binding.endDate.editText?.text
                     //Send selected courses to attendance report fragment for display
-                    if (courseSelected.isNotEmpty()) {
+                    if (courseSelected.isNotEmpty() && startDate!!.isNotBlank() && endDate!!.isNotBlank()) {
                         findNavController().navigate(AttendanceFragmentDirections
-                                .actionNavViewAttendanceToAttendanceReportFragment(courseSelected.toTypedArray()))
+                                .actionNavViewAttendanceToAttendanceReportFragment(
+                                        courseSelected.toTypedArray(),
+                                        startDate.toString(),
+                                        endDate.toString()
+                                ))
+                        dismiss()
                     } else {
-                        Toast.makeText(context, "Nothing is selected", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Course not selected or date field empty", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
