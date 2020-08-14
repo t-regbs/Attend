@@ -1,5 +1,6 @@
 package com.example.attend.ui.attendancereport
 
+import com.example.attend.databinding.StudentReportItemBinding
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,7 +14,6 @@ import com.example.attend.R
 import com.example.attend.data.model.CourseWithAttendances
 import com.example.attend.data.model.StudentWithAttendances
 import com.example.attend.databinding.CourseReportHeaderBinding
-import com.example.attend.databinding.CourseReportItemBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,11 +25,11 @@ import org.threeten.bp.format.DateTimeFormatter
 private const val ITEM_VIEW_TYPE_HEADER = 0
 private const val ITEM_VIEW_TYPE_ITEM = 1
 
-class ReportCourseAdapter :
-        ListAdapter<ReportItem, RecyclerView.ViewHolder>(COMPARATOR){
+class ReportStudentAdapter :
+    ListAdapter<ReportItem, RecyclerView.ViewHolder>(COMPARATOR){
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
-    lateinit var studentWithAttendanceList: List<StudentWithAttendances>
+    lateinit var courseWithAttendanceList: List<CourseWithAttendances>
     lateinit var startDate: String
     lateinit var endDate: String
 
@@ -41,11 +41,11 @@ class ReportCourseAdapter :
         }
     }
 
-    fun addHeaderAndSubmitList(list: List<CourseWithAttendances>) {
+    fun addHeaderAndSubmitList(list: List<StudentWithAttendances>) {
         adapterScope.launch {
             val items = when (list) {
                 null -> listOf(ReportItem.Header)
-                else -> listOf(ReportItem.Header) + list.map { ReportItem.CourseWithAttendanceItem(it) }
+                else -> listOf(ReportItem.Header) + list.map { ReportItem.StudentWithAttendanceItem(it) }
             }
             withContext(Dispatchers.Main) {
                 submitList(items)
@@ -56,9 +56,9 @@ class ReportCourseAdapter :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder) {
             is ViewHolder -> {
-                val course = getItem(position) as ReportItem.CourseWithAttendanceItem
-                course.let {
-                    holder.bind(it.courseWithAttendances, studentWithAttendanceList, startDate, endDate)
+                val student = getItem(position) as ReportItem.StudentWithAttendanceItem
+                student.let {
+                    holder.bind(it.studentWithAttendances, courseWithAttendanceList, startDate, endDate)
                 }
             }
             is TextViewHolder -> {
@@ -74,13 +74,13 @@ class ReportCourseAdapter :
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
             is ReportItem.Header -> ITEM_VIEW_TYPE_HEADER
-            is ReportItem.CourseWithAttendanceItem -> ITEM_VIEW_TYPE_ITEM
+            is ReportItem.StudentWithAttendanceItem -> ITEM_VIEW_TYPE_ITEM
             else -> -1
         }
     }
 
     class TextViewHolder private constructor(private val headerTextItemBinding: CourseReportHeaderBinding):
-            RecyclerView.ViewHolder(headerTextItemBinding.root) {
+        RecyclerView.ViewHolder(headerTextItemBinding.root) {
         companion object {
             fun from(parent: ViewGroup): TextViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
@@ -95,49 +95,49 @@ class ReportCourseAdapter :
         }
     }
 
-    class ViewHolder private constructor(private val courseReportItemBinding: CourseReportItemBinding):
-            RecyclerView.ViewHolder(courseReportItemBinding.root) {
+    class ViewHolder private constructor(private val studentReportItemBinding: StudentReportItemBinding):
+        RecyclerView.ViewHolder(studentReportItemBinding.root) {
         companion object{
             fun fromParent(parent: ViewGroup): ViewHolder{
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = CourseReportItemBinding.inflate(layoutInflater,parent,false)
+                val binding = StudentReportItemBinding.inflate(layoutInflater,parent,false)
                 return ViewHolder(binding)
             }
         }
 
-        fun bind(courseWithAttendances: CourseWithAttendances,
-                 studentWithAttendanceList: List<StudentWithAttendances>,
+        fun bind(studentWithAttendances: StudentWithAttendances,
+                 courseWithAttendanceList: List<CourseWithAttendances>,
                  startDate: String,
                  endDate: String
         ){
-            courseReportItemBinding.courseWithAttendances = courseWithAttendances
+            studentReportItemBinding.studentWithAttendances = studentWithAttendances
             val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
             val start = formatter.parse(startDate, OffsetDateTime::from)
             val end = formatter.parse(endDate, OffsetDateTime::from)
-            val courseId = courseWithAttendances.course.courseId
-            var rows = studentWithAttendanceList.size
+            val studentId = studentWithAttendances.student.studentId
+            var rows = courseWithAttendanceList.size
             var row: Int = 1
-            for(student in studentWithAttendanceList) {
-                if (!student.attendanceList.any { it.courseId == courseId }) {
+            for(course in courseWithAttendanceList) {
+                if (!course.attendanceList.any { it.studentId == studentId }) {
                     rows--
                     continue
                 }
                 var presCount = 0
                 var absCount = 0
                 var exCount = 0
-                for (item in student.attendanceList) {
+                for (item in course.attendanceList) {
                     val withinRange = start < item.date && item.date < end
-                    if (item.attendanceStatus == "Present" && item.courseId == courseId && withinRange) presCount++
-                    else if (item.attendanceStatus == "Absent" && item.courseId == courseId && withinRange) absCount++
-                    else if (item.attendanceStatus == "Excused" && item.courseId == courseId && withinRange) exCount++
+                    if (item.attendanceStatus == "Present" && item.studentId == studentId && withinRange) presCount++
+                    else if (item.attendanceStatus == "Absent" && item.studentId == studentId && withinRange) absCount++
+                    else if (item.attendanceStatus == "Excused" && item.studentId == studentId && withinRange) exCount++
                 }
 
                 val columns = 4
-                courseReportItemBinding.grid.columnCount = columns
+                studentReportItemBinding.grid.columnCount = columns
 
 
                 for (j in 0 until columns) {
-                    val titleStudentTv = TextView(courseReportItemBinding.root.context)
+                    val titleCourseTv = TextView(studentReportItemBinding.root.context)
                     val param = LayoutParams(
                         GridLayout.spec(0, 1f),
                         GridLayout.spec(j, 1f)).apply {
@@ -146,18 +146,18 @@ class ReportCourseAdapter :
                         setGravity(Gravity.FILL)
                     }
                     when (j) {
-                        0 -> titleStudentTv.text = courseReportItemBinding.root.context.getString(R.string.menu_student)
-                        1 -> titleStudentTv.text = courseReportItemBinding.root.context.getString(R.string.present)
-                        2 -> titleStudentTv.text = courseReportItemBinding.root.context.getString(R.string.absent)
-                        3 -> titleStudentTv.text = courseReportItemBinding.root.context.getString(R.string.excused)
+                        0 -> titleCourseTv.text = studentReportItemBinding.root.context.getString(R.string.menu_course)
+                        1 -> titleCourseTv.text = studentReportItemBinding.root.context.getString(R.string.present)
+                        2 -> titleCourseTv.text = studentReportItemBinding.root.context.getString(R.string.absent)
+                        3 -> titleCourseTv.text = studentReportItemBinding.root.context.getString(R.string.excused)
                     }
-                    courseReportItemBinding.grid.addView(titleStudentTv, param)
+                    studentReportItemBinding.grid.addView(titleCourseTv, param)
                 }
 
-                val studentTv = TextView(courseReportItemBinding.root.context)
-                val presentTv = TextView(courseReportItemBinding.root.context)
-                val absentTv = TextView(courseReportItemBinding.root.context)
-                val excusedTv = TextView(courseReportItemBinding.root.context)
+                val courseTv = TextView(studentReportItemBinding.root.context)
+                val presentTv = TextView(studentReportItemBinding.root.context)
+                val absentTv = TextView(studentReportItemBinding.root.context)
+                val excusedTv = TextView(studentReportItemBinding.root.context)
                 val param1 = LayoutParams(
                     GridLayout.spec(row, 1f),
                     GridLayout.spec(0, 1f)).apply {
@@ -186,30 +186,29 @@ class ReportCourseAdapter :
                     height = ViewGroup.LayoutParams.WRAP_CONTENT
                     setGravity(Gravity.FILL)
                 }
-
-                studentTv.text = "${student.student.firstName} ${student.student.lastName}"
+                courseTv.text = course.course.courseCode
                 presentTv.text = presCount.toString()
                 absentTv.text = absCount.toString()
                 excusedTv.text = exCount.toString()
-                courseReportItemBinding.grid.apply {
-                    addView(studentTv, param1)
+                studentReportItemBinding.grid.apply {
+                    addView(courseTv, param1)
                     addView(presentTv, param2)
                     addView(absentTv, param3)
                     addView(excusedTv, param4)
                 }
                 row++
-        }
-            courseReportItemBinding.executePendingBindings()
+            }
+            studentReportItemBinding.executePendingBindings()
         }
     }
 
     companion object {
         private val COMPARATOR = object : DiffUtil.ItemCallback<ReportItem>() {
             override fun areItemsTheSame(oldItem: ReportItem, newItem: ReportItem): Boolean =
-                    oldItem.id == newItem.id
+                oldItem.id == newItem.id
 
             override fun areContentsTheSame(oldItem: ReportItem, newItem: ReportItem): Boolean =
-                    oldItem == newItem
+                oldItem == newItem
         }
     }
 

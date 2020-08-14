@@ -41,11 +41,32 @@ class AttendanceRepository(private val lecturerDao: LecturerDao,
     suspend fun getCourseWithStudentsFromCode(courseCode: String): CourseWithStudents {
         return studentCourseCrossRefDao.getCoursesWithStudentsFromCode(courseCode)
     }
+    suspend fun getStudentWithCoursesFromId(studentId: Int): StudentWithCourses {
+        return studentCourseCrossRefDao.getStudentsWithCoursesFromId(studentId)
+    }
+
+    suspend fun getCourseWithStudentsFromCourseList(courseList: List<Course>): List<CourseWithStudents> {
+        val ans = ArrayList<CourseWithStudents>()
+        for (course in courseList) {
+            val thing = getCourseWithStudentsFromCode(course.courseCode)
+            ans.add(thing)
+        }
+        return ans
+    }
 
     suspend fun getCourseWithStudentsFromCodeList(list: List<CourseWithAttendances>): List<CourseWithStudents> {
         val ans = ArrayList<CourseWithStudents>()
         for (item in list) {
             val thing = getCourseWithStudentsFromCode(item.course.courseCode)
+            ans.add(thing)
+        }
+        return ans
+    }
+
+    suspend fun getStudentWithCoursesFromIdList(list: List<StudentWithAttendances>): List<StudentWithCourses> {
+        val ans = ArrayList<StudentWithCourses>()
+        for (item in list) {
+            val thing = getStudentWithCoursesFromId(item.student.studentId)
             ans.add(thing)
         }
         return ans
@@ -109,6 +130,15 @@ class AttendanceRepository(private val lecturerDao: LecturerDao,
         return list
     }
 
+    suspend fun getStudentWithAttendancesListFromId(studentList: Array<Student>): List<StudentWithAttendances> {
+        val list = ArrayList<StudentWithAttendances>()
+        for (student in studentList) {
+            val studentWithAttendance = getStudentWithAttendanceFromId(student.studentId)
+            list.add(studentWithAttendance)
+        }
+        return list
+    }
+
     private suspend fun getCourseWithAttendanceFromId(id: Int): CourseWithAttendances {
         return attendanceDao.getCourseWithAttendanceFromCourseId(id)
     }
@@ -120,6 +150,19 @@ class AttendanceRepository(private val lecturerDao: LecturerDao,
                 val studentWithAttendances = getStudentWithAttendanceFromId(student.studentId)
                 if (!list.contains(studentWithAttendances)) {
                     list.add(studentWithAttendances)
+                }
+            }
+        }
+        return list
+    }
+
+    suspend fun getCoursesWithAttendanceFromCourse(courseList: List<StudentWithCourses>): List<CourseWithAttendances> {
+        val list = ArrayList<CourseWithAttendances>()
+        for (item in courseList) {
+            for (course in item.courses) {
+                val courseWithAttendances = getCourseWithAttendanceFromId(course.courseId)
+                if (!list.contains(courseWithAttendances)) {
+                    list.add(courseWithAttendances)
                 }
             }
         }

@@ -1,10 +1,13 @@
 package com.example.attend.data.model
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
 @Entity(tableName = "students")
+@Parcelize
 data class Student(
     @PrimaryKey(autoGenerate = true)
     val studentId: Int = 0,
@@ -16,4 +19,4 @@ data class Student(
     val contactNum: String?,
     @ColumnInfo(name = "matric_number")
     val matNo: String
-)
+): Parcelable

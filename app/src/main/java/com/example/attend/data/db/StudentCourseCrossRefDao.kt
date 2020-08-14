@@ -24,4 +24,9 @@ interface StudentCourseCrossRefDao {
     @Transaction
     @Query("SELECT * FROM courses WHERE course_code = :courseCode LIMIT 1")
     suspend fun getCoursesWithStudentsFromCode(courseCode: String): CourseWithStudents
+
+    @Transaction
+    @Query("SELECT * FROM students WHERE studentId = :studentId LIMIT 1")
+    suspend fun getStudentsWithCoursesFromId(studentId: Int): StudentWithCourses
+
 }

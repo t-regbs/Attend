@@ -99,6 +99,22 @@
                     app:argType="string"
                     app:nullable="false" />
             </action>
+            <action
+                android:id="@+id/action_nav_view_attendance_to_attendanceReportFragment2"
+                app:destination="@id/attendanceReportFragment">
+                <argument
+                    android:name="studentList"
+                    app:argType="com.example.attend.data.model.Student[]"
+                    app:nullable="false" />
+                <argument
+                    android:name="startDate"
+                    app:argType="string"
+                    app:nullable="false" />
+                <argument
+                    android:name="endDate"
+                    app:argType="string"
+                    app:nullable="false" />
+            </action>
         </fragment>
         <fragment
             android:id="@+id/attendanceReportFragment"
@@ -108,7 +124,11 @@
             <argument
                 android:name="courseList"
                 app:argType="com.example.attend.data.model.Course[]"
-                app:nullable="false" />
+                app:nullable="true"/>
+            <argument
+                android:name="studentList"
+                app:argType="com.example.attend.data.model.Student[]"
+                app:nullable="true" />
             <argument
                 android:name="startDate"
                 app:argType="string"

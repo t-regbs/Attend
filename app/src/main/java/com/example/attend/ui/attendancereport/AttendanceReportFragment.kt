@@ -7,21 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
-import com.example.attend.data.db.Converters
 import com.example.attend.data.model.Course
+import com.example.attend.data.model.Student
 import com.example.attend.databinding.AttendanceReportFragmentBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.threeten.bp.OffsetDateTime
-import org.threeten.bp.format.DateTimeFormatter
 
 class AttendanceReportFragment : Fragment() {
 
     private val reportViewModel by viewModel<AttendanceReportViewModel>()
     private lateinit var binding: AttendanceReportFragmentBinding
-    private val adapter = ReportCourseAdapter()
+    private val reportCourseAdapter = ReportCourseAdapter()
+    private val reportStudentAdapter = ReportStudentAdapter()
     private lateinit var courseList: Array<Course>
+    private lateinit var studentList: Array<Student>
     private lateinit var startDate: String
     private lateinit var endDate: String
+    private var isByCourse: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,14 +30,26 @@ class AttendanceReportFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val safeArgs: AttendanceReportFragmentArgs by navArgs()
-        courseList = safeArgs.courseList
+        courseList = safeArgs.courseList ?: emptyArray()
+        studentList = safeArgs.studentList ?: emptyArray()
+        isByCourse = safeArgs.studentList == null
         formatAndAssignDate(safeArgs)
-        reportViewModel.getStudents(courseList)
+
+        if (isByCourse) {
+            reportViewModel.getStudents(courseList)
+        } else {
+            reportViewModel.getCourses(studentList)
+        }
+
 
         binding = AttendanceReportFragmentBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = reportViewModel
-            rvCourses.adapter = adapter
+            if (isByCourse){
+                rvCourses.adapter = reportCourseAdapter
+            } else {
+                rvCourses.adapter = reportStudentAdapter
+            }
         }
 
         return binding.root
@@ -52,13 +65,25 @@ class AttendanceReportFragment : Fragment() {
         endDate = formattedEnd + format
     }
 
-    private fun setupObserver() {
+    private fun setupCourseObserver() {
         reportViewModel.studentWithAttendanceList.observe(viewLifecycleOwner, Observer { list ->
-            adapter.studentWithAttendanceList = list
-            adapter.endDate = endDate
-            adapter.startDate = startDate
+            reportCourseAdapter.studentWithAttendanceList = list
+            reportCourseAdapter.endDate = endDate
+            reportCourseAdapter.startDate = startDate
             reportViewModel.courseWithAttendanceList.observe(viewLifecycleOwner, Observer {
-                adapter.addHeaderAndSubmitList(it)
+                reportCourseAdapter.addHeaderAndSubmitList(it)
+            })
+        })
+
+    }
+
+    private fun setupStudentObserver() {
+        reportViewModel.courseWithAttendanceList.observe(viewLifecycleOwner, Observer { list ->
+            reportStudentAdapter.courseWithAttendanceList = list
+            reportStudentAdapter.endDate = endDate
+            reportStudentAdapter.startDate = startDate
+            reportViewModel.studentWithAttendanceList.observe(viewLifecycleOwner, Observer {
+                reportStudentAdapter.addHeaderAndSubmitList(it)
             })
         })
 
@@ -66,8 +91,13 @@ class AttendanceReportFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        reportViewModel.getCourseWithAttendances(courseList)
-        setupObserver()
+        if (isByCourse) {
+            reportViewModel.getCourseWithAttendances(courseList)
+            setupCourseObserver()
+        } else {
+            reportViewModel.getStudentWithAttendances(studentList)
+            setupStudentObserver()
+        }
 
     }
 }
