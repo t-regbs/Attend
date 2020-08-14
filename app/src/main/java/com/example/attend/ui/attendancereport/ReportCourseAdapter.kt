@@ -3,11 +3,13 @@ package com.example.attend.ui.attendancereport
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.gridlayout.widget.GridLayout
+import androidx.gridlayout.widget.GridLayout.LayoutParams
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.attend.R
 import com.example.attend.data.model.CourseWithAttendances
 import com.example.attend.data.model.StudentWithAttendances
 import com.example.attend.databinding.CourseReportHeaderBinding
@@ -113,8 +115,11 @@ class ReportCourseAdapter :
             val start = formatter.parse(startDate, OffsetDateTime::from)
             val end = formatter.parse(endDate, OffsetDateTime::from)
             val courseId = courseWithAttendances.course.courseId
+            var rows = studentWithAttendanceList.size
+            var row: Int = 1
             for(student in studentWithAttendanceList) {
                 if (!student.attendanceList.any { it.courseId == courseId }) {
+                    rows--
                     continue
                 }
                 var presCount = 0
@@ -126,36 +131,72 @@ class ReportCourseAdapter :
                     else if (item.attendanceStatus == "Absent" && item.courseId == courseId && withinRange) absCount++
                     else if (item.attendanceStatus == "Excused" && item.courseId == courseId && withinRange) exCount++
                 }
+
+                val columns = 4
+                courseReportItemBinding.grid.columnCount = columns
+
+
+                for (j in 0 until columns) {
+                    val titleStudentTv = TextView(courseReportItemBinding.root.context)
+                    val param = LayoutParams(
+                        GridLayout.spec(0, 1f),
+                        GridLayout.spec(j, 1f)).apply {
+                        width = ViewGroup.LayoutParams.WRAP_CONTENT
+                        height = ViewGroup.LayoutParams.WRAP_CONTENT
+                        setGravity(Gravity.FILL)
+                    }
+                    when (j) {
+                        0 -> titleStudentTv.text = courseReportItemBinding.root.context.getString(R.string.menu_student)
+                        1 -> titleStudentTv.text = courseReportItemBinding.root.context.getString(R.string.present)
+                        2 -> titleStudentTv.text = courseReportItemBinding.root.context.getString(R.string.absent)
+                        3 -> titleStudentTv.text = courseReportItemBinding.root.context.getString(R.string.excused)
+                    }
+                    courseReportItemBinding.grid.addView(titleStudentTv, param)
+                }
+
                 val studentTv = TextView(courseReportItemBinding.root.context)
                 val presentTv = TextView(courseReportItemBinding.root.context)
                 val absentTv = TextView(courseReportItemBinding.root.context)
                 val excusedTv = TextView(courseReportItemBinding.root.context)
-
-                studentTv.layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT)
-                presentTv.layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT)
-                absentTv.layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT)
-                excusedTv.layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT)
-
+                val param1 = LayoutParams(
+                    GridLayout.spec(row, 1f),
+                    GridLayout.spec(0, 1f)).apply {
+                    width = ViewGroup.LayoutParams.WRAP_CONTENT
+                    height = ViewGroup.LayoutParams.WRAP_CONTENT
+                    setGravity(Gravity.FILL)
+                }
+                val param2 = LayoutParams(
+                    GridLayout.spec(row, 1f),
+                    GridLayout.spec(1, 1f)).apply {
+                    width = ViewGroup.LayoutParams.WRAP_CONTENT
+                    height = ViewGroup.LayoutParams.WRAP_CONTENT
+                    setGravity(Gravity.FILL)
+                }
+                val param3 = LayoutParams(
+                    GridLayout.spec(row, 1f),
+                    GridLayout.spec(2, 1f)).apply {
+                    width = ViewGroup.LayoutParams.WRAP_CONTENT
+                    height = ViewGroup.LayoutParams.WRAP_CONTENT
+                    setGravity(Gravity.FILL)
+                }
+                val param4 = LayoutParams(
+                    GridLayout.spec(row, 1f),
+                    GridLayout.spec(3, 1f)).apply {
+                    width = ViewGroup.LayoutParams.WRAP_CONTENT
+                    height = ViewGroup.LayoutParams.WRAP_CONTENT
+                    setGravity(Gravity.FILL)
+                }
                 studentTv.text = "${student.student.firstName} ${student.student.lastName}"
-                studentTv.gravity = Gravity.CENTER_HORIZONTAL
                 presentTv.text = presCount.toString()
-                presentTv.gravity = Gravity.CENTER_HORIZONTAL
                 absentTv.text = absCount.toString()
-                absentTv.gravity = Gravity.CENTER_HORIZONTAL
                 excusedTv.text = exCount.toString()
-                excusedTv.gravity = Gravity.CENTER_HORIZONTAL
-                courseReportItemBinding.lnrStudent.addView(studentTv)
-                courseReportItemBinding.lnrPresent.addView(presentTv)
-                courseReportItemBinding.lnrAbsent.addView(absentTv)
-                courseReportItemBinding.lnrExcused.addView(excusedTv)
+                courseReportItemBinding.grid.apply {
+                    addView(studentTv, param1)
+                    addView(presentTv, param2)
+                    addView(absentTv, param3)
+                    addView(excusedTv, param4)
+                }
+                row++
         }
             courseReportItemBinding.executePendingBindings()
         }

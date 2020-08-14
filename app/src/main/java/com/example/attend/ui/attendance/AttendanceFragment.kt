@@ -81,11 +81,11 @@ class AttendanceFragment : Fragment() {
 
         binding.btnCourseAttendance.setOnClickListener {
             attendanceViewModel.getCoursesFromId(1)
-            showDialog()
+            showCoursesDialog()
         }
     }
 
-    private fun showDialog() {
+    private fun showCoursesDialog() {
         dialog = MaterialDialog(requireContext())
             .show {
                 noAutoDismiss()
