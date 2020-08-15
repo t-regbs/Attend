@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
 import androidx.lifecycle.SavedStateHandle
-import com.example.attend.LoggedOutGraphDirections
 import com.example.attend.data.LoginRepository
 import com.example.attend.data.Result
 

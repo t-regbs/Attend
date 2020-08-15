@@ -1,5 +1,6 @@
 package com.example.attend
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,16 +11,12 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.*
 import com.example.attend.app.AuthenticationManager
-import com.example.attend.utils.NO_HOME_ICON_FRAGMENTS
-import com.example.attend.utils.TOP_LEVEL_FRAGMENTS
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.app_bar_main.*
 import org.koin.android.ext.android.inject
 
-class LecturerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class LecturerActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var drawerLayout: DrawerLayout
@@ -30,28 +27,23 @@ class LecturerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         setContentView(R.layout.activity_lecturer)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        setupNav()
+    }
 
+    private fun setupNav() {
         drawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.lecturer_nav_host_fragment)
+        val topDestinations = setOf(
+            R.id.nav_home,
+            R.id.nav_view_attendance,
+            R.id.nav_lecturer_students,
+            R.id.nav_take_attendance)
+        appBarConfiguration =
+            AppBarConfiguration(topLevelDestinationIds = topDestinations, drawerLayout = drawerLayout)
 
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-
-        navController.addOnDestinationChangedListener { _, destination: NavDestination, _ ->
-            //Set the toolbar text (I've placed a TextView within the AppBar, which is being referenced here)
-            toolbar_text.text = destination.label
-
-            //Set home icon
-            supportActionBar?.apply {
-                setDisplayHomeAsUpEnabled((destination.id in NO_HOME_ICON_FRAGMENTS).not())
-                setHomeAsUpIndicator(if (destination.id in TOP_LEVEL_FRAGMENTS)
-                    R.drawable.ic_baseline_horizontal_split_24 else R.drawable.ic_baseline_arrow_back_24
-                )
-            }
-        }
-
-//        setupActionBarWithNavController(navController, drawerLayout)
-        navView.setNavigationItemSelectedListener(this)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -60,63 +52,23 @@ class LecturerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            android.R.id.home -> {
-                return if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    drawerLayout.closeDrawer(GravityCompat.START)
-                    true
-                } else {
-                    drawerLayout.openDrawer(GravityCompat.START)
-                    true
-                }
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when(item.itemId) {
+//            android.R.id.home -> {
+//                return if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+//                    drawerLayout.closeDrawer(GravityCompat.START)
+//                    true
+//                } else {
+//                    drawerLayout.openDrawer(GravityCompat.START)
+//                    true
+//                }
+//            }
+//        }
+//        return super.onOptionsItemSelected(item)
+//    }
 
     override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(
-            this.findNavController(R.id.lecturer_nav_host_fragment), drawerLayout)
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.nav_home -> {
-                val navOptions = NavOptions.Builder().setPopUpTo(R.id.logged_in_graph, true).build()
-                findNavController(R.id.lecturer_nav_host_fragment).navigate(R.id.nav_home, null, navOptions)
-            }
-
-            R.id.nav_lecturer_students -> {
-                if(isValidDestination(R.id.nav_lecturer_students)){
-                    findNavController(R.id.lecturer_nav_host_fragment).navigate(R.id.nav_lecturer_students)
-                }
-            }
-
-            R.id.nav_take_attendance -> {
-                if(isValidDestination(R.id.nav_take_attendance)){
-                    findNavController(R.id.lecturer_nav_host_fragment).navigate(R.id.nav_take_attendance)
-                }
-            }
-
-            R.id.nav_view_attendance -> {
-                if(isValidDestination(R.id.nav_view_attendance)){
-                    findNavController(R.id.lecturer_nav_host_fragment).navigate(R.id.nav_view_attendance)
-                }
-            }
-
-            R.id.nav_logout -> {
-                authenticationManager.clearRegistration()
-                val navOptions = NavOptions.Builder().setPopUpTo(R.id.logged_out_graph, true).build()
-                findNavController(R.id.lecturer_nav_host_fragment).navigate(R.id.logged_out_graph, null, navOptions)
-            }
-        }
-        item.isChecked = true
-        drawerLayout.closeDrawer(GravityCompat.START)
-        return true
-    }
-
-    private fun isValidDestination(destination : Int):Boolean{
-        return destination != findNavController(R.id.lecturer_nav_host_fragment).currentDestination?.id
+        val navController = findNavController(R.id.lecturer_nav_host_fragment)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 }

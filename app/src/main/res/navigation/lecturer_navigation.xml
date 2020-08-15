@@ -3,132 +3,79 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lecturer_navigation"
-    app:startDestination="@id/logged_in_graph">
+    app:startDestination="@id/nav_home">
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.attend.ui.home.HomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/home_fragment" >
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
 
-    <navigation android:id="@+id/logged_in_graph"
-        app:startDestination="@+id/nav_home">
-
+    <fragment
+        android:id="@+id/nav_lecturer_students"
+        android:name="com.example.attend.ui.lecstudents.LecStudentFragment"
+        android:label="@string/menu_students"
+        tools:layout="@layout/lec_student_fragment" >
         <action
-            android:id="@+id/logged_in_to_logged_out"
-            app:destination="@id/logged_out_graph"
-            app:enterAnim="@anim/slide_in_from_left"
-            app:exitAnim="@anim/slide_out_to_right"
-            app:popEnterAnim="@anim/slide_out_to_left"
-            app:popExitAnim="@anim/slide_in_from_left"
-            app:popUpTo="@id/logged_in_graph"
-            app:popUpToInclusive="true" />
-
-        <fragment
-            android:id="@+id/nav_home"
-            android:name="com.example.attend.ui.home.HomeFragment"
-            android:label="@string/home"
-            tools:layout="@layout/home_fragment" >
-            <argument
-                android:name="userId"
-                app:argType="string"
-                app:nullable="false" />
-        </fragment>
-
-        <fragment
-            android:id="@+id/nav_lecturer_students"
-            android:name="com.example.attend.ui.lecstudents.LecStudentFragment"
-            android:label="@string/menu_students"
-            tools:layout="@layout/lec_student_fragment" >
-            <action
-                android:id="@+id/action_nav_lecturer_students_to_nav_students_list"
-                app:destination="@+id/nav_students_list">
-                <argument
-                    android:name="courseCode"
-                    app:argType="string"
-                    app:nullable="false" />
-            </action>
-        </fragment>
-
-        <fragment
-            android:id="@+id/nav_students_list"
-            android:name="com.example.attend.ui.lecstudents.LecStudentListFragment"
-            android:label="@string/menu_students"
-            tools:layout="@layout/lec_student_list_fragment">
+            android:id="@+id/action_nav_lecturer_students_to_nav_students_list"
+            app:destination="@+id/nav_students_list">
             <argument
                 android:name="courseCode"
                 app:argType="string"
                 app:nullable="false" />
-        </fragment>
-        <fragment
-            android:id="@+id/nav_take_attendance"
-            android:name="com.example.attend.ui.takeattendance.SelectAttendanceFragment"
-            android:label="@string/take_attendance"
-            tools:layout="@layout/select_attendance_fragment">
-            <action
-                android:id="@+id/action_selectAttendanceFragment_to_takeAttendanceFragment"
-                app:destination="@id/nav_take_attendance_list" >
-                <argument
-                    android:name="courseCode"
-                    app:argType="string"
-                    app:nullable="false" />
-            </action>
-        </fragment>
-        <fragment
-            android:id="@+id/nav_take_attendance_list"
-            android:name="com.example.attend.ui.takeattendance.TakeAttendanceFragment"
-            android:label="@string/take_attendance"
-            tools:layout="@layout/fragment_take_attendance">
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_students_list"
+        android:name="com.example.attend.ui.lecstudents.LecStudentListFragment"
+        android:label="@string/menu_students"
+        tools:layout="@layout/lec_student_list_fragment">
+        <argument
+            android:name="courseCode"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_take_attendance"
+        android:name="com.example.attend.ui.takeattendance.SelectAttendanceFragment"
+        android:label="@string/take_attendance"
+        tools:layout="@layout/select_attendance_fragment">
+        <action
+            android:id="@+id/action_selectAttendanceFragment_to_takeAttendanceFragment"
+            app:destination="@id/nav_take_attendance_list" >
             <argument
                 android:name="courseCode"
                 app:argType="string"
                 app:nullable="false" />
-        </fragment>
-        <fragment
-            android:id="@+id/nav_view_attendance"
-            android:name="com.example.attend.ui.attendance.AttendanceFragment"
-            android:label="@string/attendance_report"
-            tools:layout="@layout/fragment_attendance">
-            <action
-                android:id="@+id/action_nav_view_attendance_to_attendanceReportFragment"
-                app:destination="@id/attendanceReportFragment" >
-                <argument
-                    android:name="courseList"
-                    app:argType="com.example.attend.data.model.Course[]"
-                    app:nullable="false" />
-                <argument
-                    android:name="startDate"
-                    app:argType="string"
-                    app:nullable="false" />
-                <argument
-                    android:name="endDate"
-                    app:argType="string"
-                    app:nullable="false" />
-            </action>
-            <action
-                android:id="@+id/action_nav_view_attendance_to_attendanceReportFragment2"
-                app:destination="@id/attendanceReportFragment">
-                <argument
-                    android:name="studentList"
-                    app:argType="com.example.attend.data.model.Student[]"
-                    app:nullable="false" />
-                <argument
-                    android:name="startDate"
-                    app:argType="string"
-                    app:nullable="false" />
-                <argument
-                    android:name="endDate"
-                    app:argType="string"
-                    app:nullable="false" />
-            </action>
-        </fragment>
-        <fragment
-            android:id="@+id/attendanceReportFragment"
-            android:name="com.example.attend.ui.attendancereport.AttendanceReportFragment"
-            android:label="AttendanceReportFragment"
-            tools:layout="@layout/attendance_report_fragment">
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/nav_take_attendance_list"
+        android:name="com.example.attend.ui.takeattendance.TakeAttendanceFragment"
+        android:label="@string/take_attendance"
+        tools:layout="@layout/fragment_take_attendance">
+        <argument
+            android:name="courseCode"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_view_attendance"
+        android:name="com.example.attend.ui.attendance.AttendanceFragment"
+        android:label="@string/attendance_report"
+        tools:layout="@layout/fragment_attendance">
+        <action
+            android:id="@+id/action_nav_view_attendance_to_attendanceReportFragment"
+            app:destination="@id/attendanceReportFragment" >
             <argument
                 android:name="courseList"
                 app:argType="com.example.attend.data.model.Course[]"
-                app:nullable="true"/>
-            <argument
-                android:name="studentList"
-                app:argType="com.example.attend.data.model.Student[]"
-                app:nullable="true" />
+                app:nullable="false" />
             <argument
                 android:name="startDate"
                 app:argType="string"
@@ -137,16 +84,51 @@
                 android:name="endDate"
                 app:argType="string"
                 app:nullable="false" />
-        </fragment>
-    </navigation>
+        </action>
+        <action
+            android:id="@+id/action_nav_view_attendance_to_attendanceReportFragment2"
+            app:destination="@id/attendanceReportFragment">
+            <argument
+                android:name="studentList"
+                app:argType="com.example.attend.data.model.Student[]"
+                app:nullable="false" />
+            <argument
+                android:name="startDate"
+                app:argType="string"
+                app:nullable="false" />
+            <argument
+                android:name="endDate"
+                app:argType="string"
+                app:nullable="false" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/attendanceReportFragment"
+        android:name="com.example.attend.ui.attendancereport.AttendanceReportFragment"
+        android:label="AttendanceReportFragment"
+        tools:layout="@layout/attendance_report_fragment">
+        <argument
+            android:name="courseList"
+            app:argType="com.example.attend.data.model.Course[]"
+            app:nullable="true"/>
+        <argument
+            android:name="studentList"
+            app:argType="com.example.attend.data.model.Student[]"
+            app:nullable="true" />
+        <argument
+            android:name="startDate"
+            app:argType="string"
+            app:nullable="false" />
+        <argument
+            android:name="endDate"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_logout"
+        android:name="com.example.attend.ui.splash.LogoutFragment"
+        android:label="LogoutFragment"
+        tools:layout="@layout/fragment_splash"/>
 
-    <navigation android:id="@+id/logged_out_graph"
-        app:startDestination="@+id/login_fragment">
-
-        <fragment android:id="@+id/login_fragment"
-            android:name="com.example.attend.ui.login.LoginFragment"
-            android:label="@string/action_login"
-            tools:layout="@layout/fragment_login"/>
-    </navigation>
 
 </navigation>

@@ -11,7 +11,6 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.example.attend.LecturerActivity
 import com.example.attend.R
-import com.example.attend.SplashGraphDirections
 import com.example.attend.app.AuthenticationManager
 import org.koin.android.ext.android.inject
 
