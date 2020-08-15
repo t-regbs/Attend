@@ -130,5 +130,4 @@
         android:label="LogoutFragment"
         tools:layout="@layout/fragment_splash"/>
 
-
 </navigation>

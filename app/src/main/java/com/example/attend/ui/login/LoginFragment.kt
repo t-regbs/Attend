@@ -14,6 +14,7 @@ import androidx.core.view.get
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.attend.LecturerActivity
+import com.example.attend.MainActivity
 
 import com.example.attend.R
 import com.example.attend.databinding.FragmentLoginBinding
@@ -38,10 +39,13 @@ class LoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     private fun setupObservers() {
-//        loginViewModel.canNavigate.observe(viewLifecycleOwner, Observer {
-////            activity?.startActivity(Intent(context, LecturerActivity::class.java))
-//            findNavController().navigate(LoggedOutGraphDirections.loggedOutToLoggedIn(it))
-//        })
+        loginViewModel.canNavigate.observe(viewLifecycleOwner, Observer {
+            if (it == "Admin") {
+                startActivity(Intent(context, MainActivity::class.java))
+            } else {
+                startActivity(Intent(context, LecturerActivity::class.java))
+            }
+        })
 
         loginViewModel.errorEmitter.observe(viewLifecycleOwner, Observer{
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()

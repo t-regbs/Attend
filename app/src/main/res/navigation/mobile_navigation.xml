@@ -69,4 +69,9 @@
         android:name="com.example.attend.ui.course.AddCourseFragment"
         android:label="@string/add_course"
         tools:layout="@layout/fragment_add_course" />
+    <fragment
+        android:id="@+id/nav_logout"
+        android:name="com.example.attend.ui.splash.LogoutFragment"
+        android:label="LogoutFragment"
+        tools:layout="@layout/fragment_splash"/>
 </navigation>

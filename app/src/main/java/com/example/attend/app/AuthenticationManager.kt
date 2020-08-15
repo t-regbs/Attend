@@ -11,6 +11,14 @@ class AuthenticationManager(val sharedPref: SharedPreferences) {
         sharedPref.edit().putString("username", username).apply()
     }
 
+    fun saveUserType(userType: String) {
+        sharedPref.edit().putString("userType", userType).apply()
+    }
+
+    fun saveUserId(userId: String) {
+        sharedPref.edit().putString("userId", userId).apply()
+    }
+
     fun clearRegistration() {
         sharedPref.edit().remove("username").apply()
     }

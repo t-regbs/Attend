@@ -18,6 +18,7 @@ class LogoutFragment: Fragment() {
     private val authenticationManager by inject<AuthenticationManager>()
 
     private val finishSplash: Runnable = Runnable {
+        authenticationManager.clearRegistration()
         startActivity(Intent(context, LoginActivity::class.java))
     }
 

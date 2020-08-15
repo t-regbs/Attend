@@ -26,10 +26,14 @@ class LoginViewModel(
 
     fun onLoginClicked() {
         if (username.value!!.isNotBlank() && password.value!!.isNotBlank()) {
-            val user = userType.value!!
+            val user = username.value!!
+            val userType = userType.value!!
+            val userId = userId.value!!
 
             authenticationManager.saveRegistration(user)
-            canNavigate.postValue(user)
+            authenticationManager.saveUserType(userType)
+            authenticationManager.saveUserId(userId)
+            canNavigate.postValue(userType)
         } else {
             errorEmitter.postValue("Invalid username or password!")
         }

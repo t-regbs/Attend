@@ -20,9 +20,6 @@ import org.koin.android.ext.android.inject
 
 class LoginActivity : AppCompatActivity() {
 
-
-    private val authenticationManager by inject<AuthenticationManager>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
