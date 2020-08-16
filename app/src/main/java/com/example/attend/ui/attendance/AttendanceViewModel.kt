@@ -21,6 +21,20 @@ class AttendanceViewModel(private val repository: AttendanceRepository) : ViewMo
         }
     }
 
+    fun getAllCourses() {
+        viewModelScope.launch {
+            val courseList = repository.getCourses()
+            courses.postValue(courseList)
+        }
+    }
+
+    fun getAllCourseWithStudents() {
+        viewModelScope.launch {
+            val coursesWithStudents = repository.getCourseWithStudents()
+            students.postValue(coursesWithStudents)
+        }
+    }
+
     fun getStudentsFromCourses(courseList: List<Course>) {
         viewModelScope.launch {
             val coursesWithStudents = repository.getCourseWithStudentsFromCourseList(courseList)

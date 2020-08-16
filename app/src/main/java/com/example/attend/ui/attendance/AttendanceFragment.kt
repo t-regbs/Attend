@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.datePicker
@@ -16,8 +17,6 @@ import com.example.attend.data.model.Course
 import com.example.attend.data.model.Student
 import com.example.attend.databinding.FragmentAttendanceBinding
 import com.example.attend.ui.student.CourseSelectAdapter
-import com.example.attend.ui.student.CourseSelectAdapter.*
-import com.example.attend.ui.attendance.StudentSelectAdapter.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,13 +36,19 @@ class AttendanceFragment : Fragment() {
     private val studentSelected = ArrayList<Student>()
     private val studentList = ArrayList<Student>()
     private lateinit var courseList: List<Course>
+    private var graph: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        graph = findNavController().graph.id
+        if (graph == R.id.mobile_navigation) {
+            attendanceViewModel.getAllCourses()
+        } else {
+            attendanceViewModel.getCoursesFromId(1)
+        }
 
-        attendanceViewModel.getCoursesFromId(1)
         courseSelectAdapter = CourseSelectAdapter(object:
             CourseSelectAdapter.OnItemCheckedListener {
             override fun onItemCheck(course: Course?) {
@@ -114,7 +119,12 @@ class AttendanceFragment : Fragment() {
             showCoursesDialog()
         }
         binding.btnStudentAttendance.setOnClickListener {
-            attendanceViewModel.getStudentsFromCourses(courseList)
+            if (graph == R.id.mobile_navigation){
+                attendanceViewModel.getAllCourseWithStudents()
+            } else {
+                attendanceViewModel.getStudentsFromCourses(courseList)
+            }
+
             showStudentsDialog()
         }
     }

@@ -53,7 +53,62 @@
         android:id="@+id/nav_attendance"
         android:name="com.example.attend.ui.attendance.AttendanceFragment"
         android:label="@string/attendance"
-        tools:layout="@layout/fragment_attendance"/>
+        tools:layout="@layout/fragment_attendance">
+        <action
+            android:id="@+id/action_nav_view_attendance_to_attendanceReportFragment"
+            app:destination="@id/attendanceReportFragment" >
+            <argument
+                android:name="courseList"
+                app:argType="com.example.attend.data.model.Course[]"
+                app:nullable="false" />
+            <argument
+                android:name="startDate"
+                app:argType="string"
+                app:nullable="false" />
+            <argument
+                android:name="endDate"
+                app:argType="string"
+                app:nullable="false" />
+        </action>
+        <action
+            android:id="@+id/action_nav_view_attendance_to_attendanceReportFragment2"
+            app:destination="@id/attendanceReportFragment">
+            <argument
+                android:name="studentList"
+                app:argType="com.example.attend.data.model.Student[]"
+                app:nullable="false" />
+            <argument
+                android:name="startDate"
+                app:argType="string"
+                app:nullable="false" />
+            <argument
+                android:name="endDate"
+                app:argType="string"
+                app:nullable="false" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/attendanceReportFragment"
+        android:name="com.example.attend.ui.attendancereport.AttendanceReportFragment"
+        android:label="AttendanceReportFragment"
+        tools:layout="@layout/attendance_report_fragment">
+        <argument
+            android:name="courseList"
+            app:argType="com.example.attend.data.model.Course[]"
+            app:nullable="true"/>
+        <argument
+            android:name="studentList"
+            app:argType="com.example.attend.data.model.Student[]"
+            app:nullable="true" />
+        <argument
+            android:name="startDate"
+            app:argType="string"
+            app:nullable="false" />
+        <argument
+            android:name="endDate"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
     <fragment
         android:id="@+id/studentAddFragment"
         android:name="com.example.attend.ui.student.StudentAddFragment"
@@ -72,6 +127,6 @@
     <fragment
         android:id="@+id/nav_logout"
         android:name="com.example.attend.ui.splash.LogoutFragment"
-        android:label="LogoutFragment"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_splash"/>
 </navigation>

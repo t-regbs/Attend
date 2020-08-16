@@ -45,6 +45,10 @@ class AttendanceRepository(private val lecturerDao: LecturerDao,
         return studentCourseCrossRefDao.getStudentsWithCoursesFromId(studentId)
     }
 
+    suspend fun getCourseWithStudents(): List<CourseWithStudents> {
+        return studentCourseCrossRefDao.getCoursesWithStudents()
+    }
+
     suspend fun getCourseWithStudentsFromCourseList(courseList: List<Course>): List<CourseWithStudents> {
         val ans = ArrayList<CourseWithStudents>()
         for (course in courseList) {
