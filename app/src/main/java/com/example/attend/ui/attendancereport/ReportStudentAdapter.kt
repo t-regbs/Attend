@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.attend.R
 import com.example.attend.data.model.CourseWithAttendances
+import com.example.attend.data.model.DownloadableCourseItem
+import com.example.attend.data.model.DownloadableStudentItem
 import com.example.attend.data.model.StudentWithAttendances
 import com.example.attend.databinding.CourseReportHeaderBinding
 import kotlinx.coroutines.CoroutineScope
@@ -32,6 +34,7 @@ class ReportStudentAdapter :
     lateinit var courseWithAttendanceList: List<CourseWithAttendances>
     lateinit var startDate: String
     lateinit var endDate: String
+    val downloadableList: MutableList<DownloadableStudentItem> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -58,7 +61,7 @@ class ReportStudentAdapter :
             is ViewHolder -> {
                 val student = getItem(position) as ReportItem.StudentWithAttendanceItem
                 student.let {
-                    holder.bind(it.studentWithAttendances, courseWithAttendanceList, startDate, endDate)
+                    holder.bind(it.studentWithAttendances, courseWithAttendanceList, startDate, endDate, downloadableList)
                 }
             }
             is TextViewHolder -> {
@@ -105,10 +108,12 @@ class ReportStudentAdapter :
             }
         }
 
-        fun bind(studentWithAttendances: StudentWithAttendances,
-                 courseWithAttendanceList: List<CourseWithAttendances>,
-                 startDate: String,
-                 endDate: String
+        fun bind(
+            studentWithAttendances: StudentWithAttendances,
+            courseWithAttendanceList: List<CourseWithAttendances>,
+            startDate: String,
+            endDate: String,
+            downloadableList: MutableList<DownloadableStudentItem>
         ){
             studentReportItemBinding.studentWithAttendances = studentWithAttendances
             val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
@@ -117,6 +122,13 @@ class ReportStudentAdapter :
             val studentId = studentWithAttendances.student.studentId
             var rows = courseWithAttendanceList.size
             var row: Int = 1
+            val downloadableStudentItem = DownloadableStudentItem(
+                studentName = "${studentWithAttendances.student.firstName} ${studentWithAttendances.student.lastName}",
+                courses = mutableListOf(),
+                presentList = mutableListOf(),
+                absentList = mutableListOf(),
+                excusedList = mutableListOf()
+            )
             for(course in courseWithAttendanceList) {
                 if (!course.attendanceList.any { it.studentId == studentId }) {
                     rows--
@@ -190,6 +202,12 @@ class ReportStudentAdapter :
                 presentTv.text = presCount.toString()
                 absentTv.text = absCount.toString()
                 excusedTv.text = exCount.toString()
+                downloadableStudentItem.apply {
+                    courses.add(course.course.courseCode)
+                    presentList.add(presCount.toString())
+                    absentList.add(absCount.toString())
+                    excusedList.add(exCount.toString())
+                }
                 studentReportItemBinding.grid.apply {
                     addView(courseTv, param1)
                     addView(presentTv, param2)
@@ -199,6 +217,7 @@ class ReportStudentAdapter :
                 row++
             }
             studentReportItemBinding.executePendingBindings()
+            downloadableList.add(downloadableStudentItem)
         }
     }
 

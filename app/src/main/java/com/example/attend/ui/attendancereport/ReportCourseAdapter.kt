@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.attend.R
 import com.example.attend.data.model.CourseWithAttendances
+import com.example.attend.data.model.DownloadableCourseItem
 import com.example.attend.data.model.StudentWithAttendances
 import com.example.attend.databinding.CourseReportHeaderBinding
 import com.example.attend.databinding.CourseReportItemBinding
@@ -32,6 +33,8 @@ class ReportCourseAdapter :
     lateinit var studentWithAttendanceList: List<StudentWithAttendances>
     lateinit var startDate: String
     lateinit var endDate: String
+    val downloadableList: MutableList<DownloadableCourseItem> = mutableListOf()
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -58,7 +61,7 @@ class ReportCourseAdapter :
             is ViewHolder -> {
                 val course = getItem(position) as ReportItem.CourseWithAttendanceItem
                 course.let {
-                    holder.bind(it.courseWithAttendances, studentWithAttendanceList, startDate, endDate)
+                    holder.bind(it.courseWithAttendances, studentWithAttendanceList, startDate, endDate, downloadableList)
                 }
             }
             is TextViewHolder -> {
@@ -105,10 +108,12 @@ class ReportCourseAdapter :
             }
         }
 
-        fun bind(courseWithAttendances: CourseWithAttendances,
-                 studentWithAttendanceList: List<StudentWithAttendances>,
-                 startDate: String,
-                 endDate: String
+        fun bind(
+            courseWithAttendances: CourseWithAttendances,
+            studentWithAttendanceList: List<StudentWithAttendances>,
+            startDate: String,
+            endDate: String,
+            downloadableList: MutableList<DownloadableCourseItem>
         ){
             courseReportItemBinding.courseWithAttendances = courseWithAttendances
             val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
@@ -117,6 +122,13 @@ class ReportCourseAdapter :
             val courseId = courseWithAttendances.course.courseId
             var rows = studentWithAttendanceList.size
             var row: Int = 1
+            val downloadableCourseItem = DownloadableCourseItem(
+                courseCode = courseWithAttendances.course.courseCode,
+                students = mutableListOf(),
+                presentList = mutableListOf(),
+                absentList = mutableListOf(),
+                excusedList = mutableListOf()
+                )
             for(student in studentWithAttendanceList) {
                 if (!student.attendanceList.any { it.courseId == courseId }) {
                     rows--
@@ -186,11 +198,17 @@ class ReportCourseAdapter :
                     height = ViewGroup.LayoutParams.WRAP_CONTENT
                     setGravity(Gravity.FILL)
                 }
-
-                studentTv.text = "${student.student.firstName} ${student.student.lastName}"
+                val fullStudentName = "${student.student.firstName} ${student.student.lastName}"
+                studentTv.text = fullStudentName
                 presentTv.text = presCount.toString()
                 absentTv.text = absCount.toString()
                 excusedTv.text = exCount.toString()
+                downloadableCourseItem.apply {
+                    students.add(fullStudentName)
+                    presentList.add(presCount.toString())
+                    absentList.add(absCount.toString())
+                    excusedList.add(exCount.toString())
+                }
                 courseReportItemBinding.grid.apply {
                     addView(studentTv, param1)
                     addView(presentTv, param2)
@@ -200,6 +218,7 @@ class ReportCourseAdapter :
                 row++
         }
             courseReportItemBinding.executePendingBindings()
+            downloadableList.add(downloadableCourseItem)
         }
     }
 
