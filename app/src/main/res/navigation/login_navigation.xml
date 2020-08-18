@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_navigation"
-    app:startDestination="@id/login_fragment">
+    app:startDestination="@id/splash_fragment">
     <fragment
         android:id="@+id/splash_fragment"
         android:name="com.example.attend.ui.splash.SplashFragment"
