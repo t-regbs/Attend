@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.attend.databinding.LecStudentListFragmentBinding
+import com.example.attend.ui.student.StudentFragmentDirections
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LecStudentListFragment : Fragment() {
@@ -35,7 +37,7 @@ class LecStudentListFragment : Fragment() {
     }
 
     private fun setupObserver() {
-        listViewModel.courseAndStudents.observe(viewLifecycleOwner, Observer {courseWithStudents ->
+        listViewModel.courseAndStudents.observe(viewLifecycleOwner, { courseWithStudents ->
             val list = courseWithStudents.students
             studentListAdapter.submitList(list)
         })
@@ -45,5 +47,8 @@ class LecStudentListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         listViewModel.getCourseWithStudents(courseCode)
         setupObserver()
+        binding.fab.setOnClickListener {
+            findNavController().navigate(LecStudentListFragmentDirections.actionNavStudentsListToLecStudentAddFragment(courseCode))
+        }
     }
 }

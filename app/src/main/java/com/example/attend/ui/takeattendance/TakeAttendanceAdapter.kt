@@ -2,6 +2,9 @@ package com.example.attend.ui.takeattendance
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.biometric.BiometricManager
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +17,7 @@ class TakeAttendanceAdapter(private val onItemClickedListener: OnItemClickedList
 
     interface OnItemClickedListener {
         fun onRbClicked(status: String, student: Student)
+        fun onButtonClicked(student: Student)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -47,6 +51,16 @@ class TakeAttendanceAdapter(private val onItemClickedListener: OnItemClickedList
                     R.id.rdbtn_excused -> onItemClickedListener.onRbClicked("Excused", student)
                 }
             }
+            if (BiometricManager.from(
+                   takeAttendanceListItemBinding.root.context).canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS){
+                takeAttendanceListItemBinding.btnBiometric.setOnClickListener {
+                    onItemClickedListener.onButtonClicked(student)
+                }
+            } else {
+//                Toast.makeText(context, "Pri", Toast.LENGTH_SHORT).show()
+                    //Nothing for now
+            }
+
             takeAttendanceListItemBinding.executePendingBindings()
         }
     }

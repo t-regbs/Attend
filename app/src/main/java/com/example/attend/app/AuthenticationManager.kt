@@ -23,8 +23,8 @@ class AuthenticationManager(val sharedPref: SharedPreferences) {
         sharedPref.edit().remove("username").apply()
     }
 
-    fun getAuthenticatedUser(): String {
-        return checkNotNull(sharedPref.getString("username", "").takeIf { it!!.isNotEmpty() })
+    fun getAuthenticatedUser(): String? {
+        return sharedPref.getString("username", "")
     }
 
     fun getUserType(): String? =

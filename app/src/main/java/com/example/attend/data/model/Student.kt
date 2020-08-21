@@ -12,11 +12,11 @@ data class Student(
     @PrimaryKey(autoGenerate = true)
     val studentId: Int = 0,
     @ColumnInfo(name = "first_name")
-    val firstName: String,
+    var firstName: String,
     @ColumnInfo(name = "last_name")
-    val lastName: String,
+    var lastName: String,
     @ColumnInfo(name = "phone_number")
-    val contactNum: String?,
+    var contactNum: String?,
     @ColumnInfo(name = "matric_number")
-    val matNo: String
+    var matNo: String
 ): Parcelable

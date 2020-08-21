@@ -25,7 +25,7 @@ class LoginViewModel(
     val errorEmitter = MutableLiveData<String>()
 
     fun onLoginClicked() {
-        if (username.value!!.isNotBlank() && password.value!!.isNotBlank()) {
+        if (username.value!!.isNotBlank() && password.value!!.isNotBlank() && userType.value!!.isNotBlank()) {
             val user = username.value!!
             val userType = userType.value!!
             val userId = userId.value!!
@@ -35,7 +35,7 @@ class LoginViewModel(
             authenticationManager.saveUserId(userId)
             canNavigate.postValue(userType)
         } else {
-            errorEmitter.postValue("Invalid username or password!")
+            errorEmitter.postValue("Invalid username, password or user type!")
         }
     }
 }

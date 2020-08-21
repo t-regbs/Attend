@@ -52,6 +52,7 @@
         app:boxStrokeColor="@color/logoBlue"
         app:boxBackgroundColor="@color/white"
         app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logo">
@@ -75,6 +76,7 @@
         android:textColorHint="@color/black"
         app:hintTextColor="@color/white"
         android:hint="@string/prompt_password"
+        app:endIconTint="@color/black"
         app:boxStrokeColor="@color/logoBlue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

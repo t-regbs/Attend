@@ -13,10 +13,4 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-    <style name="TextView.InputLabel" parent="TextAppearance.AppCompat.Caption">
-        <item name="android:textColor">?android:textColorHint</item>
-        <item name="android:paddingBottom">8dp</item>
-        <item name="android:paddingLeft">4dp</item>
-        <item name="android:paddingRight">4dp</item>
-    </style>
 </resources>

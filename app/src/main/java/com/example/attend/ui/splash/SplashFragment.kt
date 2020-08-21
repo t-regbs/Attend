@@ -22,7 +22,10 @@ class SplashFragment: Fragment() {
     private val userType = authenticationManager.getUserType()
 
     private val finishSplash: Runnable = Runnable {
-        if (authenticationManager.isAuthenticated()) {
+        val isNull = authenticationManager.getAuthenticatedUser().isNullOrEmpty()
+        if (isNull) {
+            findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
+        } else if (authenticationManager.isAuthenticated()) {
             if (userType == "Admin") {
                 startActivity(Intent(context, MainActivity::class.java))
             } else {

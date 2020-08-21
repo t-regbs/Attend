@@ -24,7 +24,6 @@ class SelectAttendanceFragment : Fragment(), AdapterView.OnItemSelectedListener 
     private lateinit var userId:String
     private lateinit var courseCode:String
     private val courseCodeList = ArrayList<String>()
-    private val authenticationManager by inject<AuthenticationManager>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,7 +43,10 @@ class SelectAttendanceFragment : Fragment(), AdapterView.OnItemSelectedListener 
 
     private fun setupObserver() {
         attendanceViewModel.courses.observe(viewLifecycleOwner, Observer { courses ->
-            courses.forEach { courseCodeList.add(it.courseCode) }
+            courses.forEach {
+                if (!courseCodeList.contains(it.courseCode))
+                    courseCodeList.add(it.courseCode)
+            }
             createArrayAdapter()
         })
     }

@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.attend"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -56,7 +56,7 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.1'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
@@ -109,7 +109,13 @@ dependencies {
 //    implementation "org.apache.poi:poi:3.17"
 //    implementation "org.apache.poi:poi-ooxml:3.17"
     implementation files('libs/poishadow-all.jar')
-
     implementation 'androidx.multidex:multidex:2.0.1'
+
+    //Biometrics
+    def biometric_version = '1.0.1'
+    implementation "androidx.biometric:biometric:$biometric_version"
+
+    //File Picker
+    implementation 'com.github.salehyarahmadi:FileAndFolderPicker:1.0.4'
 
 }
