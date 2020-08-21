@@ -12,6 +12,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.attend.R
+import com.example.attend.app.AuthenticationManager
 import com.example.attend.data.model.Student
 import com.example.attend.databinding.LecStudentAddFragmentBinding
 import ir.androidexception.filepicker.dialog.SingleFilePickerDialog
@@ -19,6 +21,7 @@ import ir.androidexception.filepicker.interfaces.OnCancelPickerDialogListener
 import ir.androidexception.filepicker.interfaces.OnConfirmDialogListener
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import java.io.File
@@ -42,8 +45,6 @@ class LecStudentAddFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             viewModel = attendanceViewModel
         }
-//        userId = authenticationManager.getUserId()
-        userId = "1"
         val args: LecStudentAddFragmentArgs by navArgs()
         courseCode = args.courseCode
 
@@ -59,7 +60,6 @@ class LecStudentAddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        attendanceViewModel.getCoursesFromId(userId.toInt())
         setupObserver()
         binding.btnAddStudents.setOnClickListener {
             insertStudents(studentList)
@@ -74,9 +74,8 @@ class LecStudentAddFragment : Fragment() {
     private fun findDoc() {
         if (permissionGranted()) {
             val singleFilePickerDialog = SingleFilePickerDialog(requireContext(),
-                    OnCancelPickerDialogListener { Toast.makeText(context, "Canceled!!", Toast.LENGTH_SHORT).show() },
+                    OnCancelPickerDialogListener { Toast.makeText(context, getString(R.string.canceled), Toast.LENGTH_SHORT).show() },
                     OnConfirmDialogListener { files: Array<File> ->
-                        Toast.makeText(context, files[0].path, Toast.LENGTH_SHORT).show()
                         binding.doc.editText?.setText(files[0].path)
                         readExcelFile(files[0])
                     })

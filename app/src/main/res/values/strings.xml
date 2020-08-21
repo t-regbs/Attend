@@ -60,5 +60,6 @@
     <string name="dismiss">dismiss</string>
     <string name="add_students">Add Students</string>
     <string name="prompt_search_doc">Press Button to find doc</string>
+    <string name="canceled">Canceled!!</string>
 
 </resources>

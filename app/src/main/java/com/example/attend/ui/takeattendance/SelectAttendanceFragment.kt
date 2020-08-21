@@ -43,7 +43,10 @@ class SelectAttendanceFragment : Fragment(), AdapterView.OnItemSelectedListener 
 
     private fun setupObserver() {
         attendanceViewModel.courses.observe(viewLifecycleOwner, Observer { courses ->
-            courses.forEach { courseCodeList.add(it.courseCode) }
+            courses.forEach {
+                if (!courseCodeList.contains(it.courseCode))
+                    courseCodeList.add(it.courseCode)
+            }
             createArrayAdapter()
         })
     }
