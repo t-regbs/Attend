@@ -7,10 +7,10 @@ import com.example.attend.data.model.StudentWithCourses
 
 @Dao
 interface StudentCourseCrossRefDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertStudentAndCourseId(studentCourseCrossRef: StudentCourseCrossRef)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMultipleStudentAndCourseId(studentCourseCrossRefs: List<StudentCourseCrossRef>): Array<Long>
 
     @Transaction

@@ -176,4 +176,20 @@ class AttendanceRepository(private val lecturerDao: LecturerDao,
     private suspend fun getStudentWithAttendanceFromId(studentId: Int): StudentWithAttendances {
         return attendanceDao.getStudentWithAttendanceFromId(studentId)
     }
+
+    suspend fun addNewStudentsToCourse(studentList: MutableList<Student>, courseCode: String): Boolean {
+        val courseId = getCourseIdFromCourseCode(courseCode)
+        for (student in studentList) {
+            val stud = studentDao.getStudentFromMatNo(student.matNo)
+            if (stud == null) {
+                val id = studentDao.insertStudent(student)
+                val crossRef = StudentCourseCrossRef(id.toInt(), courseId)
+                studentCourseCrossRefDao.insertStudentAndCourseId(crossRef)
+            } else {
+                val crossRef = StudentCourseCrossRef(stud.studentId, courseId)
+                studentCourseCrossRefDao.insertStudentAndCourseId(crossRef)
+            }
+        }
+        return true
+    }
 }

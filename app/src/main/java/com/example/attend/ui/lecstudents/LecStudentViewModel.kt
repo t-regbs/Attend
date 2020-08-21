@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.attend.data.model.Course
 import com.example.attend.data.model.CourseWithStudents
+import com.example.attend.data.model.Student
 import com.example.attend.data.repository.AttendanceRepository
 import kotlinx.coroutines.launch
 
@@ -12,6 +13,7 @@ class LecStudentViewModel(private val repository: AttendanceRepository) : ViewMo
 
     val courses = MutableLiveData<List<Course>>()
     val courseAndStudents = MutableLiveData<CourseWithStudents>()
+    val showSuccessToast = MutableLiveData<Boolean>()
 
     fun getCoursesFromId(lecturerId: Int) {
         viewModelScope.launch {
@@ -24,6 +26,13 @@ class LecStudentViewModel(private val repository: AttendanceRepository) : ViewMo
         viewModelScope.launch {
             val courseWithStudents = repository.getCourseWithStudentsFromCode(courseCode)
             courseAndStudents.postValue(courseWithStudents)
+        }
+    }
+
+    fun addNewStudents(studentList: MutableList<Student>, courseCode: String) {
+        viewModelScope.launch {
+            val canShow = repository.addNewStudentsToCourse(studentList, courseCode)
+            showSuccessToast.postValue(canShow)
         }
     }
 

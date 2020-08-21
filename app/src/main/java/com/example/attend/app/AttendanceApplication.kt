@@ -16,7 +16,7 @@ class AttendanceApplication : Application() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         startKoin {
-            androidLogger(Level.DEBUG)
+            androidLogger(Level.ERROR)
             androidContext(this@AttendanceApplication)
             modules(listOf(databaseModule, viewModelModule, repositoryModule, authModule))
         }

@@ -39,6 +39,14 @@
             android:name="courseCode"
             app:argType="string"
             app:nullable="false" />
+        <action
+            android:id="@+id/action_nav_students_list_to_lecStudentAddFragment"
+            app:destination="@id/lecStudentAddFragment" >
+            <argument
+                android:name="courseCode"
+                app:argType="string"
+                app:nullable="false" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/nav_take_attendance"
@@ -129,5 +137,15 @@
         android:name="com.example.attend.ui.splash.LogoutFragment"
         android:label="LogoutFragment"
         tools:layout="@layout/fragment_splash"/>
+    <fragment
+        android:id="@+id/lecStudentAddFragment"
+        android:name="com.example.attend.ui.lecstudents.LecStudentAddFragment"
+        android:label="LecStudentAddFragment"
+        tools:layout="@layout/lec_student_add_fragment">
+        <argument
+            android:name="courseCode"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
 
 </navigation>

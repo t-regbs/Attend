@@ -21,6 +21,9 @@ interface StudentDao {
     @Query("SELECT * FROM students WHERE studentId = :id LIMIT 1")
     suspend fun getStudent(id: Int): Student
 
+    @Query("SELECT * FROM students WHERE matric_number = :matNo LIMIT 1")
+    suspend fun getStudentFromMatNo(matNo: String): Student?
+
     @Query("SELECT * FROM students ORDER BY studentId DESC")
     suspend fun getStudents(): List<Student>
 }

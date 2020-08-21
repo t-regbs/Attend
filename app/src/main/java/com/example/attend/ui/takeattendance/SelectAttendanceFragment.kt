@@ -24,7 +24,6 @@ class SelectAttendanceFragment : Fragment(), AdapterView.OnItemSelectedListener 
     private lateinit var userId:String
     private lateinit var courseCode:String
     private val courseCodeList = ArrayList<String>()
-    private val authenticationManager by inject<AuthenticationManager>()
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -54,5 +54,11 @@
     <string name="attendance_report">Attendance Report</string>
     <string name="fire">Fire</string>
     <string name="download">Download</string>
+    <string name="use_fingerprint">Use Fingerprint</string>
+    <string name="prompt_info_title">Fingerprint Authentication</string>
+    <string name="prompt_info_description">App requires fingerprint to continue</string>
+    <string name="dismiss">dismiss</string>
+    <string name="add_students">Add Students</string>
+    <string name="prompt_search_doc">Press Button to find doc</string>
 
 </resources>

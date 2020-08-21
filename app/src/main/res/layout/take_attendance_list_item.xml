@@ -46,7 +46,6 @@
                     android:textSize="@dimen/student_name_size" />
             </LinearLayout>
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,6 +78,11 @@
                         android:layout_height="wrap_content"/>
                 </RadioGroup>
             </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_biometric"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/use_fingerprint"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>
