@@ -1,16 +1,13 @@
 package com.example.attend.ui.takeattendance
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -96,7 +93,7 @@ class TakeAttendanceFragment : Fragment() {
     }
 
     private fun createPromptInfo(): BiometricPrompt.PromptInfo {
-        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+        return BiometricPrompt.PromptInfo.Builder()
             .setTitle(getString(R.string.prompt_info_title))
             .setDescription(getString(R.string.prompt_info_description))
             .setConfirmationRequired(false)
@@ -105,7 +102,6 @@ class TakeAttendanceFragment : Fragment() {
             // Also note that setDeviceCredentialAllowed and setNegativeButtonText are
             // incompatible so that if you uncomment one you must comment out the other
             .build()
-        return promptInfo
     }
 
     private fun setupObserver() {
@@ -124,9 +120,6 @@ class TakeAttendanceFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         listViewModel.getCourseWithStudents(courseCode)
         setupObserver()
-        binding.btnSubmit.setOnClickListener { listViewModel.takeAttendance(
-            hmAttendance,
-            courseCode
-        ) }
+        binding.btnSubmit.setOnClickListener { listViewModel.takeAttendance(hmAttendance, courseCode) }
     }
 }

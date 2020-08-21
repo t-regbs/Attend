@@ -13,15 +13,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.attend.R
-import com.example.attend.app.AuthenticationManager
 import com.example.attend.data.model.Student
 import com.example.attend.databinding.LecStudentAddFragmentBinding
 import ir.androidexception.filepicker.dialog.SingleFilePickerDialog
 import ir.androidexception.filepicker.interfaces.OnCancelPickerDialogListener
 import ir.androidexception.filepicker.interfaces.OnConfirmDialogListener
+import org.apache.poi.ss.usermodel.DataFormatter
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import java.io.File
@@ -129,7 +128,10 @@ class LecStudentAddFragment : Fragment() {
                         when (colno) {
                             0 -> newStudent.firstName = myCell.toString()
                             1 -> newStudent.lastName = myCell.toString()
-                            2 -> newStudent.contactNum = myCell.toString()
+                            2 -> {
+                                val fmt = DataFormatter()
+                                newStudent.contactNum = fmt.formatCellValue(myCell)
+                            }
                             3 -> newStudent.matNo = myCell.toString()
                         }
                         colno++
